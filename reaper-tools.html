@@ -1,0 +1,3066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reaper Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   REAPER TOOLS
+   Paleta: fuego + negro (misma base que Reaper, no te aburras)
+   ========================================================= */
+
+:root {
+  --rojo-fuego: #c81d25;
+  --rojo-oscuro: #6d0d12;
+  --rojo-brasa: #ff4d2e;
+  --negro: #0d0d0d;
+  --negro-suave: #1a1414;
+  --hueso: #fff3e6;
+  --dorado: #ff2b2b;
+
+  --fuente-titulo: "Bangers", cursive;
+  --fuente-texto: "Rubik", sans-serif;
+
+  --radio: 18px;
+  --sombra-fuego: 0 8px 24px rgba(200, 29, 37, 0.45);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--fuente-texto);
+  background: var(--negro);
+  color: var(--hueso);
+  min-height: 100vh;
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--dorado);
+  outline-offset: 3px;
+}
+
+/* ---------- header ---------- */
+.menu {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--rojo-fuego) 0%, var(--rojo-oscuro) 100%);
+  padding: 48px 20px 60px;
+  text-align: center;
+  isolation: isolate;
+}
+
+.menu-fuego {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 100%, rgba(255,120,50,0.55), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 55% 100%, rgba(255,60,30,0.5), transparent 60%),
+    radial-gradient(ellipse 55% 50% at 85% 100%, rgba(255,150,40,0.5), transparent 60%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+  animation: parpadeo 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes parpadeo {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+.menu-contenido {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.avatar-marco {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 5px solid var(--negro);
+  outline: 3px solid var(--rojo-brasa);
+  outline-offset: 3px;
+  overflow: hidden;
+  box-shadow: var(--sombra-fuego);
+  background: var(--negro-suave);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-marco svg { width: 60%; height: 60%; }
+
+.presentacion {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--negro);
+  margin: 0 0 10px;
+}
+
+.presentacion .comillas { font-weight: 800; }
+
+.titulo-principal {
+  font-family: var(--fuente-titulo);
+  color: var(--negro);
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  letter-spacing: 1px;
+  line-height: 1.15;
+  margin: 0;
+  text-shadow: 0 2px 0 rgba(255, 43, 43, 0.4);
+}
+
+/* ---------- contenido / grilla de herramientas ---------- */
+.contenido {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+.subtitulo {
+  font-family: var(--fuente-titulo);
+  color: var(--rojo-brasa);
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  margin: 0 0 22px;
+  text-align: center;
+}
+
+.tabla-juegos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.btn-juego {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, var(--rojo-fuego), var(--rojo-oscuro));
+  border: 2px solid var(--negro);
+  border-radius: var(--radio);
+  padding: 12px 18px;
+  text-decoration: none;
+  color: var(--hueso);
+  font-weight: 800;
+  font-size: 1.05rem;
+  font-family: var(--fuente-texto);
+  box-shadow: var(--sombra-fuego);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.btn-juego:hover, .btn-juego:focus-visible {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 30px rgba(255, 77, 46, 0.55);
+  filter: brightness(1.08);
+}
+.btn-juego:active { transform: translateY(-1px) scale(0.99); }
+
+.btn-juego.activo {
+  filter: brightness(1.12);
+  box-shadow: 0 0 0 3px var(--dorado), var(--sombra-fuego);
+}
+
+.btn-icono {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--negro);
+  background: var(--negro-suave);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icono svg { width: 60%; height: 60%; }
+
+.btn-texto { line-height: 1.2; }
+
+.btn-subtexto {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* ---------- panel de herramienta (tarjeta-juego) ---------- */
+.oculto { display: none !important; }
+
+.tarjeta-juego {
+  background: var(--negro-suave);
+  border: 2px solid var(--rojo-fuego);
+  border-radius: var(--radio);
+  padding: 22px;
+  margin-top: 18px;
+  display: grid;
+  gap: 18px;
+}
+
+.tarjeta-titulo {
+  font-family: var(--fuente-titulo);
+  color: var(--rojo-brasa);
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.tarjeta-texto { color: #ead9c9; line-height: 1.6; margin: 0; }
+
+/* ---------- conversor webp ---------- */
+.dropzone {
+  border: 2px dashed var(--rojo-fuego);
+  border-radius: 14px;
+  padding: 30px 18px;
+  text-align: center;
+  background: var(--negro);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.dropzone:hover, .dropzone.arrastrando {
+  border-color: var(--dorado);
+  background: #150f0f;
+}
+.dropzone p { margin: 0; color: #ead9c9; font-size: 0.92rem; }
+.dropzone strong { color: var(--hueso); }
+input[type=file] { display: none; }
+
+.controles-conversor {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.controles-conversor label { font-size: 0.85rem; color: #ead9c9; white-space: nowrap; }
+input[type=range] { accent-color: var(--rojo-brasa); width: 160px; }
+.valor-calidad { font-size: 0.85rem; color: var(--hueso); min-width: 34px; }
+
+.btn-accion {
+  appearance: none;
+  border: 2px solid var(--rojo-fuego);
+  background: transparent;
+  color: var(--hueso);
+  padding: 9px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, filter 0.15s ease;
+  font-family: var(--fuente-texto);
+}
+.btn-accion:hover { background: var(--rojo-fuego); filter: brightness(1.1); }
+.btn-accion:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-accion:disabled:hover { background: transparent; filter: none; }
+
+.resultados { display: flex; flex-direction: column; gap: 8px; }
+.resultado-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--negro);
+  border: 1px solid var(--rojo-oscuro);
+  border-radius: 10px;
+}
+.resultado-nombre { font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 40%; }
+.resultado-tamano { font-size: 0.78rem; color: #b98f7e; flex-shrink: 0; }
+.resultado-tamano .ahorro { color: #7cd992; }
+.resultado-fila a {
+  font-size: 0.8rem;
+  color: var(--hueso);
+  border: 1px solid var(--rojo-fuego);
+  padding: 5px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.resultado-fila a:hover { background: var(--rojo-fuego); }
+
+.input-color-texto {
+  width: 92px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  border: 2px solid var(--rojo-fuego);
+  background: var(--negro);
+  color: var(--hueso);
+  font-family: var(--fuente-texto);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.input-color-texto:focus-visible { outline: 2px solid var(--dorado); }
+.input-color-texto:disabled, .rgb-inputs input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.rgb-inputs { display: flex; align-items: center; gap: 4px; }
+.rgb-etiqueta { font-size: 0.72rem; color: #b98f7e; }
+.rgb-inputs input {
+  width: 52px;
+  padding: 7px 4px;
+  border-radius: 10px;
+  border: 2px solid var(--rojo-fuego);
+  background: var(--negro);
+  color: var(--hueso);
+  font-family: var(--fuente-texto);
+  font-size: 0.85rem;
+  text-align: center;
+}
+.rgb-inputs input::-webkit-inner-spin-button { opacity: 0.6; }
+
+/* ---------- editar colores ---------- */
+.fila-slider { display: flex; flex-direction: column; gap: 4px; }
+.fila-slider label { font-size: 0.85rem; color: #ead9c9; display: flex; justify-content: space-between; }
+.fila-slider input[type=range] { width: 100%; }
+
+/* ---------- galería de enlaces ---------- */
+.grid-galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 14px;
+}
+.item-galeria {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+.item-galeria:hover, .item-galeria:focus-visible { transform: translateY(-3px); }
+.icono-galeria {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--rojo-fuego), var(--rojo-oscuro));
+  border: 2px solid var(--negro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--sombra-fuego);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.icono-galeria img { width: 68%; height: 68%; object-fit: contain; }
+.etiqueta-galeria {
+  font-size: 0.7rem;
+  color: var(--hueso);
+  text-align: center;
+  max-width: 84px;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+
+/* ---------- pie ---------- */
+.pie { text-align: center; padding: 24px 20px; color: #b98f7e; font-size: 0.85rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-juego, .menu-fuego { transition: none; animation: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+  <header class="menu">
+    <div class="menu-fuego" aria-hidden="true"></div>
+    <div class="menu-contenido">
+      <div class="avatar-marco">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.6">
+          <path d="M4 20 L18 6 M18 6 C18 6 21 3 20 2 C19 1 16 4 16 4 L4 16 L4 20 L8 20 L16 12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p class="presentacion">Hola soy <span class="comillas">Reaper</span>, no te aburras</p>
+      <h1 class="titulo-principal">¡¡¡Herramientas para no dar vueltas!!!</h1>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <section class="seccion-herramientas">
+      <h2 class="subtitulo">Elegí una herramienta</h2>
+      <div class="tabla-juegos" id="tabla-herramientas">
+
+        <!-- ============================================================
+             BOTÓN: Png/Jpg a Webp
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="webp">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="14" rx="2"/>
+              <path d="M3 13l4-4 5 5 3-3 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="8" cy="8" r="1.4" fill="#fff3e6" stroke="none"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Png/Jpg a Webp
+            <span class="btn-subtexto">convertí varias de una</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Webp a Png
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="webppng">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="14" rx="2"/>
+              <path d="M3 13l4-4 5 5 3-3 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="16" cy="8" r="1.4" fill="#fff3e6" stroke="none"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Webp a Png
+            <span class="btn-subtexto">convertí varias de una</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Gif a Mp4 c/ Sonido
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="gifmp4">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="2.5" y="4" width="13" height="10" rx="2"/>
+              <path d="M5.5 8.5l2-1.5v4l-2-1.5" fill="#fff3e6" stroke="none"/>
+              <path d="M18 6v3M20 5v5M22 7v1" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Gif a Mp4 c/ Sonido
+            <span class="btn-subtexto">gif + audio &#8594; video</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Quitar Marca de Agua
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="marcadeagua">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="18" rx="3"/>
+              <path d="M8 16l3-8 2 5 1.5-3L17 16" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 6l2 2M18 6l-2 2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Quitar Marca de Agua
+            <span class="btn-subtexto">rellena la zona marcada</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Editar Colores
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="editarcolores">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="9" cy="10" r="1.3" fill="#fff3e6" stroke="none"/>
+              <circle cx="14" cy="9" r="1.3" fill="#fff3e6" stroke="none"/>
+              <circle cx="15.5" cy="13" r="1.3" fill="#fff3e6" stroke="none"/>
+              <path d="M12 15c1.5 0 2-1 1.2-2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Editar Colores
+            <span class="btn-subtexto">tono, saturación, luz y sombra</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Ejecutar Python
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="python">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <path d="M9 4h5a2 2 0 0 1 2 2v3H9a2 2 0 0 0-2 2v2H4V8a4 4 0 0 1 4-4z"/>
+              <path d="M15 20H10a2 2 0 0 1-2-2v-3h7a2 2 0 0 0 2-2V11h3v5a4 4 0 0 1-4 4z"/>
+              <circle cx="8" cy="6.3" r="0.6" fill="#fff3e6" stroke="none"/>
+              <circle cx="16" cy="17.7" r="0.6" fill="#fff3e6" stroke="none"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Ejecutar Python
+            <span class="btn-subtexto">.py con pillow y otras libs</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Quitar Fondo (Blanco/Negro)
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="quitarfondo">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="18" rx="3" stroke-dasharray="3 3"/>
+              <circle cx="12" cy="12" r="5"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Quitar Fondo
+            <span class="btn-subtexto">fondo blanco o negro liso</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Degradados
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="degradados">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="18" rx="3"/>
+              <path d="M3 15h18" stroke-opacity="0.9"/>
+              <path d="M3 18h18" stroke-opacity="0.5"/>
+              <path d="M3 21h18" stroke-opacity="0.2"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Degradados
+            <span class="btn-subtexto">bordes a color o transparencia</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Reemplazar Color
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="reemplazarcolor">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <circle cx="9" cy="12" r="5"/>
+              <path d="M14 12h6M17 9v6" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Reemplazar Color
+            <span class="btn-subtexto">cambiá una gama por otra</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Estilo Artístico
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="estiloartistico">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <path d="M4 20c4-1 5-5 7-9s4-6 8-6" stroke-linecap="round"/>
+              <path d="M6 16l3 3M9 13l3 3M12 10l3 3" stroke-linecap="round" stroke-opacity="0.7"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Estilo Artístico
+            <span class="btn-subtexto">boceto, pergamino, grabado</span>
+          </span>
+        </button>
+
+        <!-- ============================================================
+             BOTÓN: Galería de Enlaces
+             ============================================================ -->
+        <button class="btn-juego" data-herramienta="galeria">
+          <span class="btn-icono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff3e6" stroke-width="1.8">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+            </svg>
+          </span>
+          <span class="btn-texto">
+            Galería
+            <span class="btn-subtexto">accesos rápidos a tus links</span>
+          </span>
+        </button>
+
+      </div>
+
+      <!-- ============================================================
+           PANEL: Png/Jpg a Webp
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-webp">
+        <h3 class="tarjeta-titulo">Png/Jpg a Webp</h3>
+        <p class="tarjeta-texto">Elegí varios archivos o arrastralos acá. Todo se convierte en tu navegador, no se sube nada a ningún lado.</p>
+
+        <div class="dropzone" id="dropZone">
+          <p><strong>Hacé clic para elegir archivos</strong> o arrastralos acá.</p>
+          <input type="file" id="fileInput" accept="image/png,image/jpeg" multiple>
+        </div>
+
+        <div class="controles-conversor">
+          <label for="calidad">Calidad</label>
+          <input type="range" id="calidad" min="0.1" max="1" step="0.05" value="0.85">
+          <span class="valor-calidad" id="valorCalidad">85%</span>
+          <button class="btn-accion" id="descargarTodo" disabled>Descargar todos</button>
+          <button class="btn-accion" id="limpiarTodo" disabled>Limpiar</button>
+        </div>
+
+        <div class="resultados" id="resultados"></div>
+      </div>
+
+
+      <!-- ============================================================
+           PANEL: Webp a Png
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-webppng">
+        <h3 class="tarjeta-titulo">Webp a Png</h3>
+        <p class="tarjeta-texto">Elegí varios .webp o arrastralos acá. Se convierten a PNG (con transparencia si la tienen) en tu navegador, no se sube nada a ningún lado.</p>
+
+        <div class="dropzone" id="dropWebpPng">
+          <p><strong>Hacé clic para elegir archivos</strong> o arrastralos acá.</p>
+          <input type="file" id="inputWebpPng" accept="image/webp" multiple>
+        </div>
+
+        <div class="controles-conversor">
+          <button class="btn-accion" id="descargarTodoWebpPng" disabled>Descargar todos</button>
+          <button class="btn-accion" id="limpiarTodoWebpPng" disabled>Limpiar</button>
+        </div>
+
+        <div class="resultados" id="resultadosWebpPng"></div>
+      </div>
+
+
+      <!-- ============================================================
+           PANEL: Gif a Mp4 c/ Sonido
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-gifmp4">
+        <h3 class="tarjeta-titulo">Gif a Mp4 c/ Sonido</h3>
+        <p class="tarjeta-texto">Subí un GIF (con transparencia si tiene) y un audio (wav, mp3 o mp4). Ojo: el MP4 no soporta fondo transparente en ningún reproductor, así que elegís un color de fondo — o marcás "sin fondo" para exportar en WEBM con transparencia (sirve para editores tipo Premiere/After Effects/OBS, no para WhatsApp ni YouTube).</p>
+
+        <div class="dropzone" id="dropGif">
+          <p><strong>Hacé clic para elegir el GIF</strong></p>
+          <input type="file" id="inputGif" accept="image/gif">
+        </div>
+        <p class="tarjeta-texto" id="nombreGifElegido" style="font-size:0.8rem;color:#b98f7e;margin:0;"></p>
+
+        <div class="dropzone" id="dropAudioGif">
+          <p><strong>Hacé clic para elegir el audio</strong></p>
+          <input type="file" id="inputAudioGif" accept="audio/*,video/mp4">
+        </div>
+        <p class="tarjeta-texto" id="nombreAudioElegido" style="font-size:0.8rem;color:#b98f7e;margin:0;"></p>
+
+        <div class="controles-conversor">
+          <label for="colorFondo">Fondo</label>
+          <input type="color" id="colorFondo" value="#0d0d0d">
+          <input type="text" id="hexFondo" class="input-color-texto" value="#0d0d0d" maxlength="7" spellcheck="false" aria-label="Color en hexadecimal">
+          <div class="rgb-inputs">
+            <span class="rgb-etiqueta">R</span>
+            <input type="number" id="rFondo" min="0" max="255" value="13" aria-label="Rojo">
+            <span class="rgb-etiqueta">G</span>
+            <input type="number" id="gFondo" min="0" max="255" value="13" aria-label="Verde">
+            <span class="rgb-etiqueta">B</span>
+            <input type="number" id="bFondo" min="0" max="255" value="13" aria-label="Azul">
+          </div>
+          <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;color:#ead9c9;">
+            <input type="checkbox" id="checkSinFondo" style="width:16px;height:16px;">
+            sin fondo (webm, experimental)
+          </label>
+        </div>
+
+        <button class="btn-accion" id="btnGenerarGifMp4">Generar video</button>
+        <p class="tarjeta-texto" id="estadoGifMp4" style="font-size:0.85rem;color:#b98f7e;"></p>
+        <div id="resultadoGifMp4"></div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Quitar Marca de Agua
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-marcadeagua">
+        <h3 class="tarjeta-titulo">Quitar Marca de Agua</h3>
+        <p class="tarjeta-texto">
+          Subí una imagen, marcá con el mouse (clic y arrastrá) el rectángulo que cubre la marca de agua o el logo,
+          y aplicá "Quitar marca". Rellena esa zona a partir de la textura de los bordes cercanos — anda bastante bien
+          en fondos lisos o con textura pareja (cielo, pared, degradé), pero en fondos complejos puede quedar borroso
+          justo ahí. No usa ninguna IA ni servicio externo, es matemática local con canvas — si querés una reconstrucción
+          perfecta tipo IA generativa, eso sí necesitaría una API paga aparte (no está incluida acá).
+        </p>
+
+        <div class="dropzone" id="dropMarca">
+          <p><strong>Hacé clic para elegir la imagen</strong> o arrastrala acá.</p>
+          <input type="file" id="inputMarca" accept="image/png,image/jpeg,image/webp">
+        </div>
+
+        <div id="zonaMarca" class="oculto" style="margin-top:6px;">
+          <p class="tarjeta-texto" style="font-size:0.82rem;">Dibujá un rectángulo sobre la marca de agua:</p>
+          <canvas id="canvasMarca" style="max-width:100%;border-radius:12px;border:2px solid var(--rojo-fuego);cursor:crosshair;touch-action:none;"></canvas>
+
+          <div class="controles-conversor" style="margin-top:14px;">
+            <label for="pasadasMarca">Intensidad</label>
+            <input type="range" id="pasadasMarca" min="4" max="40" step="1" value="18">
+            <span class="valor-calidad" id="valorPasadasMarca">18</span>
+            <button class="btn-accion" id="btnQuitarMarca" disabled>Quitar marca</button>
+            <button class="btn-accion" id="btnDeshacerMarca" disabled>Deshacer</button>
+          </div>
+          <p class="tarjeta-texto" id="estadoMarca" style="font-size:0.85rem;color:#b98f7e;"></p>
+          <div id="resultadoMarca"></div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Editar Colores
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-editarcolores">
+        <h3 class="tarjeta-titulo">Editar Colores</h3>
+        <p class="tarjeta-texto">
+          Subí un PNG, JPG o GIF. Si el GIF tiene movimiento se mantiene en la vista previa animada; si la imagen tiene
+          transparencia, se respeta. Los cambios de tono/saturación/luz/sombra/contraste se ven en vivo. Ojo: si el
+          original es un GIF animado, se descarga como WEBM (no hay codificador de GIF acá), y la transparencia en ese
+          WEBM depende de que tu navegador la soporte al grabar.
+        </p>
+
+        <div class="dropzone" id="dropColores">
+          <p><strong>Hacé clic para elegir la imagen</strong> o arrastrala acá.</p>
+          <input type="file" id="inputColores" accept="image/png,image/jpeg,image/gif,image/webp">
+        </div>
+
+        <div id="zonaColores" class="oculto" style="margin-top:6px;">
+          <canvas id="canvasColores" style="max-width:100%;border-radius:12px;border:2px solid var(--rojo-fuego);background:
+            repeating-conic-gradient(#2a2020 0% 25%, #1a1414 0% 50%) 50% / 20px 20px;"></canvas>
+
+          <div class="controles-conversor" style="margin-top:14px;">
+            <label style="display:flex;align-items:center;gap:6px;">
+              <input type="checkbox" id="checkMonocromo" style="width:16px;height:16px;">
+              Monocromo (un solo tono)
+            </label>
+            <label for="colorMonocromo">Color</label>
+            <input type="color" id="colorMonocromo" value="#c81d25">
+          </div>
+
+          <div class="controles-conversor" style="margin-top:10px;flex-direction:column;align-items:stretch;gap:10px;">
+            <div class="fila-slider"><label>Tono <span id="valTono">0</span>°</label><input type="range" id="sliderTono" min="-180" max="180" value="0"></div>
+            <div class="fila-slider"><label>Saturación <span id="valSat">0</span></label><input type="range" id="sliderSat" min="-100" max="100" value="0"></div>
+            <div class="fila-slider"><label>Luz <span id="valLuz">0</span></label><input type="range" id="sliderLuz" min="-100" max="100" value="0"></div>
+            <div class="fila-slider"><label>Sombras <span id="valSombra">0</span></label><input type="range" id="sliderSombra" min="-100" max="100" value="0"></div>
+            <div class="fila-slider"><label>Contraste <span id="valContraste">0</span></label><input type="range" id="sliderContraste" min="-100" max="100" value="0"></div>
+          </div>
+
+          <div class="controles-conversor" style="margin-top:14px;">
+            <button class="btn-accion" id="btnResetColores">Reiniciar</button>
+            <button class="btn-accion" id="btnDescargarColores" disabled>Descargar</button>
+          </div>
+          <p class="tarjeta-texto" id="estadoColores" style="font-size:0.85rem;color:#b98f7e;"></p>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Ejecutar Python
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-python">
+        <h3 class="tarjeta-titulo">Ejecutar Python</h3>
+        <p class="tarjeta-texto">
+          Subí un .py (o pegalo abajo) y lo corremos acá con Pyodide — Python compilado a WebAssembly, corre en tu
+          navegador, no se manda a ningún servidor. La primera vez tarda porque baja el intérprete. Si el script
+          importa librerías como Pillow, numpy, pandas, etc. tratamos de instalarlas solas — las que Pyodide trae
+          precompiladas andan directo, el resto se intenta bajar de PyPI con micropip si es puro-Python. No va a poder
+          abrir ventanas (tkinter), sockets, ni tocar tu disco real: solo lee los archivos que le subas acá abajo y
+          escribe en una carpeta virtual, de la que después descargás lo que haya generado.
+        </p>
+
+        <div class="dropzone" id="dropPy">
+          <p><strong>Hacé clic para elegir un .py</strong> o arrastralo acá (también podés pegar el código abajo).</p>
+          <input type="file" id="inputPy" accept=".py,text/x-python">
+        </div>
+
+        <textarea id="editorPython" rows="10" spellcheck="false"
+          style="width:100%;background:var(--negro);color:var(--hueso);border:2px solid var(--rojo-fuego);border-radius:12px;padding:12px;font-family:monospace;font-size:0.82rem;resize:vertical;"
+          placeholder="# pegá o subí tu script acá"></textarea>
+
+        <div class="dropzone" id="dropArchivosPy">
+          <p><strong>(Opcional) Archivos que el script necesita leer</strong> — clic o arrastrá acá.</p>
+          <input type="file" id="inputArchivosPy" multiple>
+        </div>
+        <p class="tarjeta-texto" id="listaArchivosPy" style="font-size:0.8rem;color:#b98f7e;margin:0;"></p>
+
+        <div class="controles-conversor">
+          <button class="btn-accion" id="btnEjecutarPython">Ejecutar</button>
+          <button class="btn-accion" id="btnLimpiarPython">Limpiar</button>
+        </div>
+        <p class="tarjeta-texto" id="estadoPython" style="font-size:0.85rem;color:#b98f7e;"></p>
+        <pre id="salidaPython" style="white-space:pre-wrap;word-break:break-word;background:var(--negro);border:1px solid var(--rojo-oscuro);border-radius:10px;padding:12px;max-height:260px;overflow:auto;font-size:0.8rem;margin:0;"></pre>
+        <div id="resultadoPython"></div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Quitar Fondo (Blanco/Negro)
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-quitarfondo">
+        <h3 class="tarjeta-titulo">Quitar Fondo (Blanco/Negro)</h3>
+        <p class="tarjeta-texto">
+          Pensado para fondos lisos (blanco o negro parejo, tipo foto de estudio o render). Marca como transparente
+          todo lo que esté cerca de ese color, con un borde suavizado para que no quede recortado feo. No sirve para
+          fondos con textura, degradados fuertes o fotos "normales" — para eso hace falta segmentación por IA, que no
+          está acá.
+        </p>
+
+        <div class="dropzone" id="dropFondo">
+          <p><strong>Hacé clic para elegir la imagen</strong> o arrastrala acá.</p>
+          <input type="file" id="inputFondo" accept="image/png,image/jpeg,image/webp">
+        </div>
+
+        <div id="zonaFondo" class="oculto" style="margin-top:6px;">
+          <canvas id="canvasFondo" style="max-width:100%;border-radius:12px;border:2px solid var(--rojo-fuego);background:
+            repeating-conic-gradient(#2a2020 0% 25%, #1a1414 0% 50%) 50% / 20px 20px;"></canvas>
+
+          <div class="controles-conversor" style="margin-top:14px;">
+            <label style="display:flex;align-items:center;gap:6px;">
+              <input type="radio" name="colorFondoQuitar" id="radioBlanco" checked> Fondo blanco
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;">
+              <input type="radio" name="colorFondoQuitar" id="radioNegro"> Fondo negro
+            </label>
+          </div>
+
+          <div class="controles-conversor" style="margin-top:10px;">
+            <label for="sliderTolerancia">Tolerancia</label>
+            <input type="range" id="sliderTolerancia" min="5" max="120" value="35">
+            <span class="valor-calidad" id="valorTolerancia">35</span>
+          </div>
+
+          <div class="controles-conversor" style="margin-top:14px;">
+            <button class="btn-accion" id="btnDescargarFondo" disabled>Descargar</button>
+          </div>
+          <p class="tarjeta-texto" id="estadoFondo" style="font-size:0.85rem;color:#b98f7e;"></p>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Degradados
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-degradados">
+        <h3 class="tarjeta-titulo">Degradados en los Bordes</h3>
+        <p class="tarjeta-texto">
+          Subí una o varias imágenes — se aplican los mismos ajustes a todas. Elegí qué lados llevan degradado, el
+          tamaño, y si va hacia un color sólido o "vacío" (se va borrando hasta quedar transparente, como un fundido).
+        </p>
+
+        <div class="controles-conversor">
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ladoArriba">Arriba</label>
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ladoAbajo">Abajo</label>
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ladoIzquierda">Izquierda</label>
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ladoDerecha">Derecha</label>
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="ladoTodos">Todos</label>
+        </div>
+
+        <div class="controles-conversor">
+          <label style="display:flex;align-items:center;gap:6px;"><input type="radio" name="modoDegradado" id="modoColorDegradado" checked>Color</label>
+          <label style="display:flex;align-items:center;gap:6px;"><input type="radio" name="modoDegradado" id="modoVacioDegradado">Vacío (transparencia)</label>
+        </div>
+
+        <div class="controles-conversor" id="controlesColorDegradado">
+          <input type="color" id="colorDegradado" value="#c81d25">
+          <input type="text" id="hexDegradado" class="input-color-texto" value="#C81D25" maxlength="7" spellcheck="false" aria-label="Color en hexadecimal">
+          <div class="rgb-inputs">
+            <span class="rgb-etiqueta">R</span><input type="number" id="rDegradado" min="0" max="255" value="200">
+            <span class="rgb-etiqueta">G</span><input type="number" id="gDegradado" min="0" max="255" value="29">
+            <span class="rgb-etiqueta">B</span><input type="number" id="bDegradado" min="0" max="255" value="37">
+          </div>
+        </div>
+
+        <div class="controles-conversor">
+          <label for="sliderTamanoDegradado">Tamaño</label>
+          <input type="range" id="sliderTamanoDegradado" min="5" max="60" value="25">
+          <span class="valor-calidad" id="valorTamanoDegradado">25%</span>
+        </div>
+
+        <div class="dropzone" id="dropDegradado">
+          <p><strong>Hacé clic para elegir imágenes</strong> o arrastralas acá.</p>
+          <input type="file" id="inputDegradado" accept="image/png,image/jpeg,image/webp" multiple>
+        </div>
+
+        <div class="controles-conversor">
+          <button class="btn-accion" id="btnReaplicarDegradado" disabled>Aplicar con estos ajustes</button>
+          <button class="btn-accion" id="btnDescargarTodoDegradado" disabled>Descargar todos</button>
+          <button class="btn-accion" id="btnLimpiarDegradado" disabled>Limpiar</button>
+        </div>
+        <p class="tarjeta-texto" id="estadoDegradado" style="font-size:0.85rem;color:#b98f7e;"></p>
+        <div class="resultados" id="resultadosDegradado"></div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Reemplazar Color
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-reemplazarcolor">
+        <h3 class="tarjeta-titulo">Reemplazar Color</h3>
+        <p class="tarjeta-texto">
+          Subí una imagen y tocá sobre el color que querés reemplazar (o escribilo en hex). Ajustá la tolerancia para
+          agarrar más o menos variación de ese tono, elegí el color nuevo, o marcá "dejar transparente" si en vez de
+          pintar querés sacar ese color directamente (por ejemplo, para quitar el fondo). Siempre descarga en PNG.
+        </p>
+
+        <div class="dropzone" id="dropReemplazar">
+          <p><strong>Hacé clic para elegir la imagen</strong> o arrastrala acá.</p>
+          <input type="file" id="inputReemplazar" accept="image/png,image/jpeg,image/webp">
+        </div>
+
+        <div id="zonaReemplazar" class="oculto" style="margin-top:6px;">
+          <p class="tarjeta-texto" style="font-size:0.82rem;">Tocá la imagen para elegir el color a reemplazar:</p>
+          <canvas id="canvasReemplazar" style="max-width:100%;border-radius:12px;border:2px solid var(--rojo-fuego);cursor:crosshair;background:
+            repeating-conic-gradient(#2a2020 0% 25%, #1a1414 0% 50%) 50% / 20px 20px;"></canvas>
+
+          <div class="controles-conversor" style="margin-top:14px;">
+            <label>Color a reemplazar</label>
+            <input type="color" id="colorObjetivoReemplazar" value="#ffffff">
+            <input type="text" id="hexObjetivoReemplazar" class="input-color-texto" value="#FFFFFF" maxlength="7" spellcheck="false">
+          </div>
+
+          <div class="controles-conversor">
+            <label for="sliderToleranciaReemplazar">Tolerancia</label>
+            <input type="range" id="sliderToleranciaReemplazar" min="5" max="200" value="40">
+            <span class="valor-calidad" id="valorToleranciaReemplazar">40</span>
+          </div>
+
+          <div class="controles-conversor">
+            <label style="display:flex;align-items:center;gap:6px;">
+              <input type="checkbox" id="checkTransparenteReemplazar">
+              Dejar transparente en vez de pintar
+            </label>
+          </div>
+
+          <div class="controles-conversor" id="controlesNuevoColorReemplazar">
+            <label>Color nuevo</label>
+            <input type="color" id="colorNuevoReemplazar" value="#c81d25">
+            <input type="text" id="hexNuevoReemplazar" class="input-color-texto" value="#C81D25" maxlength="7" spellcheck="false">
+          </div>
+
+          <div class="controles-conversor" style="margin-top:10px;">
+            <button class="btn-accion" id="btnDescargarReemplazar" disabled>Descargar PNG</button>
+          </div>
+          <p class="tarjeta-texto" id="estadoReemplazar" style="font-size:0.85rem;color:#b98f7e;"></p>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Estilo Artístico
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-estiloartistico">
+        <h3 class="tarjeta-titulo">Estilo Artístico</h3>
+        <p class="tarjeta-texto">
+          Subí una o varias imágenes. Son filtros calculados (bordes, tramado, tonos) — no una IA re-dibujando la
+          imagen; para eso haría falta un servicio de generación pago, como hablamos antes. Estos son gratis y corren
+          al toque en el navegador.
+        </p>
+
+        <div class="controles-conversor">
+          <label for="selectEstilo">Estilo</label>
+          <select id="selectEstilo" style="background:var(--negro);color:var(--hueso);border:2px solid var(--rojo-fuego);border-radius:10px;padding:7px 10px;font-family:var(--fuente-texto);">
+            <option value="boceto">Boceto a lápiz</option>
+            <option value="pergamino">Pergamino antiguo (sepia)</option>
+            <option value="grabado">Grabado con rayas (crosshatch)</option>
+          </select>
+          <label for="sliderIntensidadEstilo">Intensidad</label>
+          <input type="range" id="sliderIntensidadEstilo" min="1" max="10" value="5">
+          <span class="valor-calidad" id="valorIntensidadEstilo">5</span>
+        </div>
+
+        <div class="dropzone" id="dropEstilo">
+          <p><strong>Hacé clic para elegir imágenes</strong> o arrastralas acá.</p>
+          <input type="file" id="inputEstilo" accept="image/png,image/jpeg,image/webp" multiple>
+        </div>
+
+        <div class="controles-conversor">
+          <button class="btn-accion" id="btnReaplicarEstilo" disabled>Aplicar con estos ajustes</button>
+          <button class="btn-accion" id="btnDescargarTodoEstilo" disabled>Descargar todos</button>
+          <button class="btn-accion" id="btnLimpiarEstilo" disabled>Limpiar</button>
+        </div>
+        <p class="tarjeta-texto" id="estadoEstilo" style="font-size:0.85rem;color:#b98f7e;"></p>
+        <div class="resultados" id="resultadosEstilo"></div>
+      </div>
+
+      <!-- ============================================================
+           PANEL: Galería de Enlaces
+           ============================================================ -->
+      <div class="tarjeta-juego oculto" id="panel-galeria">
+        <h3 class="tarjeta-titulo">Galería de Enlaces</h3>
+        <p class="tarjeta-texto">
+          Se arma sola a partir de un archivo <code>reaper-links.json</code> que subís junto a este HTML en tu repo de
+          GitHub. Cada vez que edites ese archivo y actualices la web, los botones se actualizan solos — no hace
+          falta tocar este HTML. Formato del archivo (una lista de objetos):
+        </p>
+        <pre style="white-space:pre-wrap;background:var(--negro);border:1px solid var(--rojo-oscuro);border-radius:10px;padding:12px;font-size:0.78rem;color:#ead9c9;margin:0;">[
+  { "nombre": "Twitter", "vector": "https://tu-link-al-icono.svg", "web": "https://twitter.com/tu_usuario" },
+  { "nombre": "Discord", "vector": "https://tu-link-al-icono.png", "web": "https://discord.gg/tu-server" }
+]</pre>
+        <p class="tarjeta-texto" style="font-size:0.8rem;">
+          "vector" es el link a la imagen del ícono (svg, png, lo que sea), "web" es a dónde te lleva el botón, y
+          "nombre" es la palabrita que aparece abajo por si te olvidás qué es. Ojo: esto solo funciona subido a
+          GitHub Pages (o cualquier servidor) — abriendo el HTML como archivo local en tu compu el navegador no te
+          va a dejar leer el .json por seguridad.
+        </p>
+
+        <div class="controles-conversor">
+          <button class="btn-accion" id="btnRecargarGaleria">Recargar</button>
+        </div>
+        <p class="tarjeta-texto" id="estadoGaleria" style="font-size:0.85rem;color:#b98f7e;"></p>
+
+        <div class="grid-galeria" id="grid-galeria"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Reaper Tools — pasala god, todo corre local.</p>
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script>
+/* =========================================================
+   REAPER TOOLS — script
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".btn-juego").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      reproducirClic();
+      abrirHerramienta(btn.dataset.herramienta);
+    });
+  });
+});
+
+function abrirHerramienta(id) {
+  const paneles = ["webp", "webppng", "gifmp4", "marcadeagua", "editarcolores", "python", "quitarfondo", "degradados", "reemplazarcolor", "estiloartistico", "galeria"];
+  const yaAbierto = !document.getElementById("panel-" + id).classList.contains("oculto");
+
+  paneles.forEach((p) => {
+    document.getElementById("panel-" + p).classList.add("oculto");
+    document.querySelector(`[data-herramienta="${p}"]`).classList.remove("activo");
+  });
+
+  if (!yaAbierto) {
+    document.getElementById("panel-" + id).classList.remove("oculto");
+    document.querySelector(`[data-herramienta="${id}"]`).classList.add("activo");
+    document.getElementById("panel-" + id).scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+/* ---------- sonido de clic (mismo que el sitio de juegos) ---------- */
+let audioCtx = null;
+function reproducirClic() {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "square";
+    osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.16);
+  } catch (e) {
+    // si el navegador bloquea el audio, seguimos sin sonido y listo
+  }
+}
+
+/* =========================================================
+   CONVERSOR PNG/JPG -> WEBP
+   ========================================================= */
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const inputCalidad = document.getElementById("calidad");
+const valorCalidad = document.getElementById("valorCalidad");
+const resultadosEl = document.getElementById("resultados");
+const btnDescargarTodo = document.getElementById("descargarTodo");
+const btnLimpiarTodo = document.getElementById("limpiarTodo");
+
+let convertidos = [];
+
+inputCalidad.addEventListener("input", () => {
+  valorCalidad.textContent = Math.round(inputCalidad.value * 100) + "%";
+});
+
+dropZone.addEventListener("click", () => fileInput.click());
+fileInput.addEventListener("change", (e) => manejarArchivos(e.target.files));
+
+["dragover", "dragenter"].forEach((evt) => {
+  dropZone.addEventListener(evt, (e) => {
+    e.preventDefault();
+    dropZone.classList.add("arrastrando");
+  });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropZone.addEventListener(evt, (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("arrastrando");
+  });
+});
+dropZone.addEventListener("drop", (e) => manejarArchivos(e.dataTransfer.files));
+
+btnDescargarTodo.addEventListener("click", descargarTodo);
+btnLimpiarTodo.addEventListener("click", limpiarResultados);
+
+function manejarArchivos(lista) {
+  Array.from(lista)
+    .filter((f) => /image\/(png|jpe?g)/.test(f.type))
+    .forEach(convertirArchivo);
+}
+
+function convertirArchivo(file) {
+  const img = new Image();
+  const reader = new FileReader();
+  reader.onload = (e) => { img.src = e.target.result; };
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const calidad = parseFloat(inputCalidad.value);
+    canvas.toBlob((blob) => {
+      if (!blob) { agregarFila(file.name, null, file.size, 0, true); return; }
+      const url = URL.createObjectURL(blob);
+      const nombreSalida = file.name.replace(/\.(png|jpe?g)$/i, "") + ".webp";
+      convertidos.push({ name: nombreSalida, url, size: blob.size });
+      agregarFila(nombreSalida, url, file.size, blob.size, false);
+      btnDescargarTodo.disabled = false;
+      btnLimpiarTodo.disabled = false;
+    }, "image/webp", calidad);
+  };
+  reader.readAsDataURL(file);
+}
+
+function formatoTamano(bytes) {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+}
+
+function agregarFila(nombre, url, tamanoOriginal, tamanoNuevo, fallo) {
+  const fila = document.createElement("div");
+  fila.className = "resultado-fila";
+  if (fallo) {
+    fila.innerHTML = `<span class="resultado-nombre">${nombre}</span><span class="resultado-tamano">no se pudo convertir</span>`;
+    resultadosEl.appendChild(fila);
+    return;
+  }
+  const ahorro = tamanoOriginal > 0 ? Math.round((1 - tamanoNuevo / tamanoOriginal) * 100) : 0;
+  fila.innerHTML = `
+    <span class="resultado-nombre">${nombre}</span>
+    <span class="resultado-tamano">${formatoTamano(tamanoOriginal)} → ${formatoTamano(tamanoNuevo)} <span class="ahorro">(-${ahorro}%)</span></span>
+    <a href="${url}" download="${nombre}">Descargar</a>
+  `;
+  resultadosEl.appendChild(fila);
+}
+
+function descargarTodo() {
+  convertidos.forEach((f, i) => {
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = f.url;
+      a.download = f.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }, i * 200);
+  });
+}
+
+function limpiarResultados() {
+  convertidos.forEach((f) => URL.revokeObjectURL(f.url));
+  convertidos = [];
+  resultadosEl.innerHTML = "";
+  btnDescargarTodo.disabled = true;
+  btnLimpiarTodo.disabled = true;
+  fileInput.value = "";
+}
+
+/* =========================================================
+   CONVERSOR WEBP -> PNG
+   ========================================================= */
+const dropWebpPng = document.getElementById("dropWebpPng");
+const inputWebpPng = document.getElementById("inputWebpPng");
+const resultadosWebpPng = document.getElementById("resultadosWebpPng");
+const btnDescargarTodoWebpPng = document.getElementById("descargarTodoWebpPng");
+const btnLimpiarTodoWebpPng = document.getElementById("limpiarTodoWebpPng");
+
+let convertidosWebpPng = [];
+
+dropWebpPng.addEventListener("click", () => inputWebpPng.click());
+inputWebpPng.addEventListener("change", (e) => manejarArchivosWebpPng(e.target.files));
+["dragover", "dragenter"].forEach((evt) => {
+  dropWebpPng.addEventListener(evt, (e) => { e.preventDefault(); dropWebpPng.classList.add("arrastrando"); });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropWebpPng.addEventListener(evt, (e) => { e.preventDefault(); dropWebpPng.classList.remove("arrastrando"); });
+});
+dropWebpPng.addEventListener("drop", (e) => manejarArchivosWebpPng(e.dataTransfer.files));
+
+btnDescargarTodoWebpPng.addEventListener("click", () => {
+  convertidosWebpPng.forEach((f, i) => {
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = f.url;
+      a.download = f.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }, i * 200);
+  });
+});
+
+btnLimpiarTodoWebpPng.addEventListener("click", () => {
+  convertidosWebpPng.forEach((f) => URL.revokeObjectURL(f.url));
+  convertidosWebpPng = [];
+  resultadosWebpPng.innerHTML = "";
+  btnDescargarTodoWebpPng.disabled = true;
+  btnLimpiarTodoWebpPng.disabled = true;
+  inputWebpPng.value = "";
+});
+
+function manejarArchivosWebpPng(lista) {
+  Array.from(lista)
+    .filter((f) => /image\/webp/.test(f.type))
+    .forEach(convertirArchivoWebpPng);
+}
+
+function convertirArchivoWebpPng(file) {
+  const img = new Image();
+  const reader = new FileReader();
+  reader.onload = (e) => { img.src = e.target.result; };
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    canvas.toBlob((blob) => {
+      if (!blob) { agregarFilaWebpPng(file.name, null, file.size, 0, true); return; }
+      const url = URL.createObjectURL(blob);
+      const nombreSalida = file.name.replace(/\.webp$/i, "") + ".png";
+      convertidosWebpPng.push({ name: nombreSalida, url, size: blob.size });
+      agregarFilaWebpPng(nombreSalida, url, file.size, blob.size, false);
+      btnDescargarTodoWebpPng.disabled = false;
+      btnLimpiarTodoWebpPng.disabled = false;
+    }, "image/png");
+  };
+  reader.readAsDataURL(file);
+}
+
+function agregarFilaWebpPng(nombre, url, tamanoOriginal, tamanoNuevo, fallo) {
+  const fila = document.createElement("div");
+  fila.className = "resultado-fila";
+  if (fallo) {
+    fila.innerHTML = `<span class="resultado-nombre">${nombre}</span><span class="resultado-tamano">no se pudo convertir</span>`;
+    resultadosWebpPng.appendChild(fila);
+    return;
+  }
+  fila.innerHTML = `
+    <span class="resultado-nombre">${nombre}</span>
+    <span class="resultado-tamano">${formatoTamano(tamanoOriginal)} → ${formatoTamano(tamanoNuevo)}</span>
+    <a href="${url}" download="${nombre}">Descargar</a>
+  `;
+  resultadosWebpPng.appendChild(fila);
+}
+
+/* =========================================================
+   GIF A MP4 CON SONIDO
+   Decodificador de GIF propio (sin librerías) + grabación
+   con MediaRecorder, sincronizado con el audio subido.
+   ========================================================= */
+
+/* ---------- decodificador GIF89a ---------- */
+function leerGIF(buffer) {
+  const data = new Uint8Array(buffer);
+  let p = 0;
+  const u8 = () => data[p++];
+  const u16 = () => { const v = data[p] | (data[p + 1] << 8); p += 2; return v; };
+
+  const firma = String.fromCharCode(data[0], data[1], data[2], data[3], data[4], data[5]);
+  if (firma.slice(0, 3) !== "GIF") throw new Error("No es un GIF válido");
+  p = 6;
+
+  const width = u16();
+  const height = u16();
+  const packed = u8();
+  const gctFlag = (packed & 0x80) !== 0;
+  const gctSize = 2 << (packed & 0x07);
+  p += 2; // color de fondo + relación de aspecto
+
+  let gct = null;
+  if (gctFlag) {
+    gct = [];
+    for (let i = 0; i < gctSize; i++) gct.push([u8(), u8(), u8()]);
+  }
+
+  const frames = [];
+  let transparentIndex = -1;
+  let delayTime = 10;
+  let disposalMethod = 0;
+
+  while (p < data.length) {
+    const tipo = u8();
+    if (tipo === 0x21) {
+      const label = u8();
+      if (label === 0xf9) {
+        u8(); // tamaño de bloque (4)
+        const packedGCE = u8();
+        disposalMethod = (packedGCE >> 2) & 0x07;
+        const conTransparencia = (packedGCE & 0x01) !== 0;
+        delayTime = u16();
+        const idx = u8();
+        transparentIndex = conTransparencia ? idx : -1;
+        u8(); // terminador
+      } else {
+        let tam = u8();
+        while (tam !== 0) { p += tam; tam = u8(); }
+      }
+    } else if (tipo === 0x2c) {
+      const left = u16();
+      const top = u16();
+      const fw = u16();
+      const fh = u16();
+      const packedID = u8();
+      const lctFlag = (packedID & 0x80) !== 0;
+      const interlaced = (packedID & 0x40) !== 0;
+      const lctSize = 2 << (packedID & 0x07);
+
+      let colorTable = gct;
+      if (lctFlag) {
+        colorTable = [];
+        for (let i = 0; i < lctSize; i++) colorTable.push([u8(), u8(), u8()]);
+      }
+
+      const minCodeSize = u8();
+      const bytesLZW = [];
+      let tamBloque = u8();
+      while (tamBloque !== 0) {
+        for (let i = 0; i < tamBloque; i++) bytesLZW.push(u8());
+        tamBloque = u8();
+      }
+
+      let indices = decodificarLZW(bytesLZW, minCodeSize, fw * fh);
+      if (interlaced) indices = desentrelazar(indices, fw, fh);
+
+      frames.push({
+        left, top, width: fw, height: fh, indices, colorTable,
+        transparentIndex, delay: delayTime * 10, disposalMethod,
+      });
+    } else if (tipo === 0x3b) {
+      break;
+    } else {
+      break;
+    }
+  }
+
+  if (frames.length === 0) throw new Error("El GIF no tiene cuadros");
+  return { width, height, frames };
+}
+
+function decodificarLZW(bytes, minCodeSize, totalPixeles) {
+  const clearCode = 1 << minCodeSize;
+  const eoiCode = clearCode + 1;
+  let codeSize, dict;
+
+  function reiniciarDiccionario() {
+    dict = [];
+    for (let i = 0; i < clearCode; i++) dict[i] = [i];
+    dict[clearCode] = [];
+    dict[eoiCode] = [];
+    codeSize = minCodeSize + 1;
+  }
+  reiniciarDiccionario();
+
+  const salida = new Uint8Array(totalPixeles);
+  let outPos = 0;
+  let bitBuffer = 0, bitCount = 0, bytePos = 0;
+
+  function leerCodigo() {
+    while (bitCount < codeSize) {
+      if (bytePos >= bytes.length) return eoiCode;
+      bitBuffer |= bytes[bytePos++] << bitCount;
+      bitCount += 8;
+    }
+    const code = bitBuffer & ((1 << codeSize) - 1);
+    bitBuffer >>= codeSize;
+    bitCount -= codeSize;
+    return code;
+  }
+
+  let previo = null;
+  let code;
+  while ((code = leerCodigo()) !== eoiCode) {
+    if (code === clearCode) { reiniciarDiccionario(); previo = null; continue; }
+
+    let entrada;
+    if (dict[code] && dict[code].length) entrada = dict[code];
+    else if (code === dict.length && previo) entrada = previo.concat([previo[0]]);
+    else break;
+
+    for (let i = 0; i < entrada.length && outPos < totalPixeles; i++) salida[outPos++] = entrada[i];
+
+    if (previo) {
+      dict.push(previo.concat([entrada[0]]));
+      if (dict.length === (1 << codeSize) && codeSize < 12) codeSize++;
+    }
+    previo = entrada;
+    if (outPos >= totalPixeles) break;
+  }
+  return salida;
+}
+
+function desentrelazar(indices, width, height) {
+  const resultado = new Uint8Array(indices.length);
+  const pasadas = [[0, 8], [4, 8], [2, 4], [1, 2]];
+  let filaOrigen = 0;
+  for (const [inicio, paso] of pasadas) {
+    for (let fila = inicio; fila < height; fila += paso) {
+      const srcOff = filaOrigen * width;
+      const dstOff = fila * width;
+      resultado.set(indices.subarray(srcOff, srcOff + width), dstOff);
+      filaOrigen++;
+    }
+  }
+  return resultado;
+}
+
+/* ---------- componer cuadros respetando transparencia y disposal ---------- */
+function componerCuadros(gif) {
+  const { width, height, frames } = gif;
+  const buffer = new Uint8ClampedArray(width * height * 4);
+  const cuadros = [];
+  let disposalPrevio = 0;
+  let rectPrevio = null;
+
+  for (const frame of frames) {
+    if (rectPrevio && disposalPrevio === 2) {
+      for (let y = 0; y < rectPrevio.height; y++) {
+        const off = ((rectPrevio.top + y) * width + rectPrevio.left) * 4;
+        buffer.fill(0, off, off + rectPrevio.width * 4);
+      }
+    }
+
+    const { left, top, width: fw, height: fh, indices, colorTable, transparentIndex } = frame;
+    for (let y = 0; y < fh; y++) {
+      for (let x = 0; x < fw; x++) {
+        const idx = indices[y * fw + x];
+        if (idx === transparentIndex) continue;
+        const color = colorTable[idx] || [0, 0, 0];
+        const px = ((top + y) * width + (left + x)) * 4;
+        buffer[px] = color[0]; buffer[px + 1] = color[1]; buffer[px + 2] = color[2]; buffer[px + 3] = 255;
+      }
+    }
+
+    cuadros.push({
+      imageData: new ImageData(buffer.slice(), width, height),
+      delay: Math.max(frame.delay, 20),
+    });
+
+    disposalPrevio = frame.disposalMethod;
+    rectPrevio = { left, top, width: fw, height: fh };
+  }
+  return cuadros;
+}
+
+/* ---------- UI y grabación ---------- */
+const dropGif = document.getElementById("dropGif");
+const inputGif = document.getElementById("inputGif");
+const nombreGifElegido = document.getElementById("nombreGifElegido");
+const dropAudioGif = document.getElementById("dropAudioGif");
+const inputAudioGif = document.getElementById("inputAudioGif");
+const nombreAudioElegido = document.getElementById("nombreAudioElegido");
+const colorFondo = document.getElementById("colorFondo");
+const hexFondo = document.getElementById("hexFondo");
+const rFondo = document.getElementById("rFondo");
+const gFondo = document.getElementById("gFondo");
+const bFondo = document.getElementById("bFondo");
+const checkSinFondo = document.getElementById("checkSinFondo");
+const btnGenerarGifMp4 = document.getElementById("btnGenerarGifMp4");
+const estadoGifMp4 = document.getElementById("estadoGifMp4");
+const resultadoGifMp4 = document.getElementById("resultadoGifMp4");
+
+dropGif.addEventListener("click", () => inputGif.click());
+inputGif.addEventListener("change", () => {
+  nombreGifElegido.textContent = inputGif.files[0] ? inputGif.files[0].name : "";
+});
+
+dropAudioGif.addEventListener("click", () => inputAudioGif.click());
+inputAudioGif.addEventListener("change", () => {
+  nombreAudioElegido.textContent = inputAudioGif.files[0] ? inputAudioGif.files[0].name : "";
+});
+
+checkSinFondo.addEventListener("change", () => {
+  const desactivar = checkSinFondo.checked;
+  colorFondo.disabled = desactivar;
+  hexFondo.disabled = desactivar;
+  rFondo.disabled = desactivar;
+  gFondo.disabled = desactivar;
+  bFondo.disabled = desactivar;
+});
+
+/* ---------- elegir el color por hexa o por rgb, no solo con el picker ---------- */
+function hexARgb(hex) {
+  hex = hex.trim().replace("#", "");
+  if (hex.length === 3) hex = hex.split("").map((c) => c + c).join("");
+  if (!/^[0-9a-fA-F]{6}$/.test(hex)) return null;
+  const num = parseInt(hex, 16);
+  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+}
+function rgbAHex(r, g, b) {
+  return "#" + [r, g, b].map((v) => Math.max(0, Math.min(255, v | 0)).toString(16).padStart(2, "0")).join("");
+}
+function limitar255(v) {
+  v = parseInt(v, 10);
+  if (isNaN(v)) v = 0;
+  return Math.max(0, Math.min(255, v));
+}
+
+colorFondo.addEventListener("input", () => {
+  const hex = colorFondo.value;
+  hexFondo.value = hex;
+  const rgb = hexARgb(hex);
+  if (rgb) { rFondo.value = rgb.r; gFondo.value = rgb.g; bFondo.value = rgb.b; }
+});
+
+hexFondo.addEventListener("input", () => {
+  const rgb = hexARgb(hexFondo.value);
+  if (!rgb) return; // mientras no sea un hexa válido, no tocamos nada más
+  const hex = rgbAHex(rgb.r, rgb.g, rgb.b);
+  colorFondo.value = hex;
+  rFondo.value = rgb.r; gFondo.value = rgb.g; bFondo.value = rgb.b;
+});
+hexFondo.addEventListener("blur", () => {
+  hexFondo.value = colorFondo.value; // si quedó algo inválido, lo corrige al último color válido
+});
+
+[rFondo, gFondo, bFondo].forEach((input) => {
+  input.addEventListener("input", () => {
+    const r = limitar255(rFondo.value);
+    const g = limitar255(gFondo.value);
+    const b = limitar255(bFondo.value);
+    const hex = rgbAHex(r, g, b);
+    colorFondo.value = hex;
+    hexFondo.value = hex;
+  });
+});
+
+btnGenerarGifMp4.addEventListener("click", () => {
+  reproducirClic();
+  generarVideoGif();
+});
+
+function esperar(ms) { return new Promise((r) => setTimeout(r, ms)); }
+
+async function generarVideoGif() {
+  const gifFile = inputGif.files[0];
+  const audioFile = inputAudioGif.files[0];
+  resultadoGifMp4.innerHTML = "";
+
+  if (!gifFile || !audioFile) {
+    estadoGifMp4.textContent = "Subí un GIF y un archivo de audio.";
+    return;
+  }
+
+  btnGenerarGifMp4.disabled = true;
+  estadoGifMp4.textContent = "Leyendo el GIF...";
+
+  let gifData;
+  try {
+    const buffer = await gifFile.arrayBuffer();
+    gifData = leerGIF(buffer);
+  } catch (err) {
+    estadoGifMp4.textContent = "No pude leer ese GIF. ¿Seguro que es un .gif?";
+    btnGenerarGifMp4.disabled = false;
+    return;
+  }
+
+  estadoGifMp4.textContent = "Armando los cuadros...";
+  const cuadros = componerCuadros(gifData);
+
+  const sinFondo = checkSinFondo.checked;
+
+  const gifCanvas = document.createElement("canvas");
+  gifCanvas.width = gifData.width;
+  gifCanvas.height = gifData.height;
+  const gifCtx = gifCanvas.getContext("2d");
+
+  const outCanvas = document.createElement("canvas");
+  outCanvas.width = gifData.width;
+  outCanvas.height = gifData.height;
+  const outCtx = outCanvas.getContext("2d", { alpha: sinFondo });
+
+  const audioEl = document.createElement("audio");
+  audioEl.src = URL.createObjectURL(audioFile);
+
+  await new Promise((resolve) => {
+    audioEl.addEventListener("loadedmetadata", resolve, { once: true });
+    audioEl.addEventListener("error", resolve, { once: true });
+  });
+
+  let audioStream;
+  try {
+    audioStream = audioEl.captureStream ? audioEl.captureStream() : audioEl.mozCaptureStream();
+  } catch (err) {
+    estadoGifMp4.textContent = "Tu navegador no puede capturar el audio. Probá con Chrome o Firefox de escritorio.";
+    btnGenerarGifMp4.disabled = false;
+    return;
+  }
+
+  const videoStream = outCanvas.captureStream(0);
+  const videoTrack = videoStream.getVideoTracks()[0];
+  const combinado = new MediaStream([videoTrack, ...audioStream.getAudioTracks()]);
+
+  const candidatos = sinFondo
+    ? ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"]
+    : ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm"];
+
+  let mimeType = null;
+  for (const c of candidatos) {
+    if (MediaRecorder.isTypeSupported(c)) { mimeType = c; break; }
+  }
+  if (!mimeType) {
+    estadoGifMp4.textContent = "Tu navegador no soporta grabar video acá. Probá con Chrome de escritorio.";
+    btnGenerarGifMp4.disabled = false;
+    return;
+  }
+
+  const chunks = [];
+  const recorder = new MediaRecorder(combinado, { mimeType });
+  recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+  const listo = new Promise((resolve) => { recorder.onstop = resolve; });
+
+  estadoGifMp4.textContent = "Grabando...";
+  recorder.start();
+  audioEl.currentTime = 0;
+  const prom = audioEl.play();
+  if (prom && prom.catch) prom.catch(() => {});
+
+  let terminado = false;
+  audioEl.addEventListener("ended", () => { terminado = true; }, { once: true });
+
+  const LIMITE_MS = 60000;
+  const inicio = performance.now();
+  let i = 0;
+
+  while (!terminado && performance.now() - inicio < LIMITE_MS) {
+    const cuadro = cuadros[i % cuadros.length];
+    gifCtx.clearRect(0, 0, gifData.width, gifData.height);
+    gifCtx.putImageData(cuadro.imageData, 0, 0);
+
+    outCtx.clearRect(0, 0, gifData.width, gifData.height);
+    if (!sinFondo) {
+      outCtx.fillStyle = colorFondo.value;
+      outCtx.fillRect(0, 0, gifData.width, gifData.height);
+    }
+    outCtx.drawImage(gifCanvas, 0, 0);
+    videoTrack.requestFrame();
+
+    await esperar(cuadro.delay);
+    i++;
+  }
+
+  recorder.stop();
+  audioEl.pause();
+  await listo;
+
+  const blob = new Blob(chunks, { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const esMp4 = mimeType.startsWith("video/mp4");
+  const nombreSalida = "reaper-gif" + (esMp4 ? ".mp4" : ".webm");
+
+  const video = document.createElement("video");
+  video.src = url;
+  video.controls = true;
+  video.style.width = "100%";
+  video.style.borderRadius = "14px";
+  video.style.border = "2px solid var(--rojo-fuego)";
+  video.style.marginTop = "10px";
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = nombreSalida;
+  link.textContent = "Descargar " + nombreSalida;
+  link.className = "btn-accion";
+  link.style.display = "inline-block";
+  link.style.marginTop = "10px";
+  link.style.textDecoration = "none";
+
+  resultadoGifMp4.appendChild(video);
+  resultadoGifMp4.appendChild(document.createElement("br"));
+  resultadoGifMp4.appendChild(link);
+
+  estadoGifMp4.textContent = esMp4
+    ? "Listo. Se exportó como MP4."
+    : "Listo. Tu navegador no graba MP4 directo acá, así que se exportó como WEBM.";
+
+  btnGenerarGifMp4.disabled = false;
+}
+
+/* =========================================================
+   QUITAR MARCA DE AGUA
+   Relleno tipo "difusión" (ecuación de Laplace, la misma idea
+   de siempre para inpainting liviano): rellena el rectángulo
+   marcado interpolando desde los bordes y después suavizando
+   con varias pasadas. No es reconstrucción con IA, así que
+   en fondos con mucho detalle puede notarse el parche.
+   ========================================================= */
+const dropMarca = document.getElementById("dropMarca");
+const inputMarca = document.getElementById("inputMarca");
+const zonaMarca = document.getElementById("zonaMarca");
+const canvasMarca = document.getElementById("canvasMarca");
+const ctxMarca = canvasMarca.getContext("2d");
+const pasadasMarca = document.getElementById("pasadasMarca");
+const valorPasadasMarca = document.getElementById("valorPasadasMarca");
+const btnQuitarMarca = document.getElementById("btnQuitarMarca");
+const btnDeshacerMarca = document.getElementById("btnDeshacerMarca");
+const estadoMarca = document.getElementById("estadoMarca");
+const resultadoMarca = document.getElementById("resultadoMarca");
+
+let imagenOriginalMarca = null;
+let seleccionMarca = null;
+let arrastrandoMarca = false;
+let historialMarca = [];
+
+dropMarca.addEventListener("click", () => inputMarca.click());
+inputMarca.addEventListener("change", (e) => cargarImagenMarca(e.target.files[0]));
+["dragover", "dragenter"].forEach((evt) => {
+  dropMarca.addEventListener(evt, (e) => { e.preventDefault(); dropMarca.classList.add("arrastrando"); });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropMarca.addEventListener(evt, (e) => { e.preventDefault(); dropMarca.classList.remove("arrastrando"); });
+});
+dropMarca.addEventListener("drop", (e) => {
+  if (e.dataTransfer.files[0]) cargarImagenMarca(e.dataTransfer.files[0]);
+});
+
+function cargarImagenMarca(file) {
+  if (!file) return;
+  const img = new Image();
+  const reader = new FileReader();
+  reader.onload = (e) => { img.src = e.target.result; };
+  img.onload = () => {
+    canvasMarca.width = img.naturalWidth;
+    canvasMarca.height = img.naturalHeight;
+    ctxMarca.drawImage(img, 0, 0);
+    imagenOriginalMarca = ctxMarca.getImageData(0, 0, canvasMarca.width, canvasMarca.height);
+    zonaMarca.classList.remove("oculto");
+    seleccionMarca = null;
+    historialMarca = [];
+    btnQuitarMarca.disabled = true;
+    btnDeshacerMarca.disabled = true;
+    estadoMarca.textContent = "";
+    resultadoMarca.innerHTML = "";
+  };
+  reader.readAsDataURL(file);
+}
+
+function coordCanvasMarca(evento) {
+  const rect = canvasMarca.getBoundingClientRect();
+  const escalaX = canvasMarca.width / rect.width;
+  const escalaY = canvasMarca.height / rect.height;
+  const clientX = evento.touches ? evento.touches[0].clientX : evento.clientX;
+  const clientY = evento.touches ? evento.touches[0].clientY : evento.clientY;
+  return {
+    x: Math.round((clientX - rect.left) * escalaX),
+    y: Math.round((clientY - rect.top) * escalaY),
+  };
+}
+
+canvasMarca.addEventListener("mousedown", iniciarSeleccionMarca);
+canvasMarca.addEventListener("touchstart", iniciarSeleccionMarca);
+canvasMarca.addEventListener("mousemove", moverSeleccionMarca);
+canvasMarca.addEventListener("touchmove", moverSeleccionMarca);
+window.addEventListener("mouseup", terminarSeleccionMarca);
+window.addEventListener("touchend", terminarSeleccionMarca);
+
+function iniciarSeleccionMarca(e) {
+  if (!imagenOriginalMarca) return;
+  e.preventDefault();
+  arrastrandoMarca = true;
+  const p = coordCanvasMarca(e);
+  seleccionMarca = { x0: p.x, y0: p.y, x1: p.x, y1: p.y };
+}
+
+function moverSeleccionMarca(e) {
+  if (!arrastrandoMarca || !imagenOriginalMarca) return;
+  e.preventDefault();
+  const p = coordCanvasMarca(e);
+  seleccionMarca.x1 = p.x;
+  seleccionMarca.y1 = p.y;
+  redibujarMarca();
+}
+
+function terminarSeleccionMarca() {
+  if (!arrastrandoMarca) return;
+  arrastrandoMarca = false;
+  if (seleccionMarca && Math.abs(seleccionMarca.x1 - seleccionMarca.x0) > 3 && Math.abs(seleccionMarca.y1 - seleccionMarca.y0) > 3) {
+    btnQuitarMarca.disabled = false;
+  }
+}
+
+function redibujarMarca() {
+  ctxMarca.putImageData(imagenOriginalMarca, 0, 0);
+  if (seleccionMarca) {
+    const { x0, y0, x1, y1 } = seleccionMarca;
+    ctxMarca.save();
+    ctxMarca.strokeStyle = "#ffef2b";
+    ctxMarca.lineWidth = Math.max(1, canvasMarca.width / 300);
+    ctxMarca.setLineDash([8, 6]);
+    ctxMarca.strokeRect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0));
+    ctxMarca.restore();
+  }
+}
+
+pasadasMarca.addEventListener("input", () => { valorPasadasMarca.textContent = pasadasMarca.value; });
+
+function muestraBorde(data, width, height, x, y) {
+  x = Math.max(0, Math.min(width - 1, x));
+  y = Math.max(0, Math.min(height - 1, y));
+  const idx = (y * width + x) * 4;
+  return [data[idx], data[idx + 1], data[idx + 2]];
+}
+
+function inpaintRegion(imageData, x0, y0, w, h, iteraciones, alturaCanvas) {
+  const width = imageData.width;
+  const data = imageData.data;
+  const x1 = x0 + w, y1 = y0 + h;
+
+  // paso 1: relleno inicial interpolando desde los cuatro bordes
+  for (let y = y0; y < y1; y++) {
+    for (let x = x0; x < x1; x++) {
+      const tArriba = muestraBorde(data, width, alturaCanvas, x, y0 - 1);
+      const tAbajo = muestraBorde(data, width, alturaCanvas, x, y1);
+      const tIzq = muestraBorde(data, width, alturaCanvas, x0 - 1, y);
+      const tDer = muestraBorde(data, width, alturaCanvas, x1, y);
+      const fy = (y - y0 + 1) / (h + 1);
+      const fx = (x - x0 + 1) / (w + 1);
+      const idx = (y * width + x) * 4;
+      for (let c = 0; c < 3; c++) {
+        const vertical = tArriba[c] * (1 - fy) + tAbajo[c] * fy;
+        const horizontal = tIzq[c] * (1 - fx) + tDer[c] * fx;
+        data[idx + c] = (vertical + horizontal) / 2;
+      }
+      data[idx + 3] = 255;
+    }
+  }
+
+  // paso 2: suavizado por difusión (promedio con los vecinos), varias pasadas
+  for (let it = 0; it < iteraciones; it++) {
+    for (let y = y0; y < y1; y++) {
+      for (let x = x0; x < x1; x++) {
+        const idx = (y * width + x) * 4;
+        for (let c = 0; c < 3; c++) {
+          const arriba = data[((y - 1) * width + x) * 4 + c];
+          const abajo = data[((y + 1) * width + x) * 4 + c];
+          const izq = data[(y * width + x - 1) * 4 + c];
+          const der = data[(y * width + x + 1) * 4 + c];
+          data[idx + c] = (arriba + abajo + izq + der) / 4;
+        }
+      }
+    }
+  }
+}
+
+btnQuitarMarca.addEventListener("click", () => {
+  if (!seleccionMarca || !imagenOriginalMarca) return;
+  const x0 = Math.max(1, Math.min(seleccionMarca.x0, seleccionMarca.x1));
+  const y0 = Math.max(1, Math.min(seleccionMarca.y0, seleccionMarca.y1));
+  const x1 = Math.min(canvasMarca.width - 1, Math.max(seleccionMarca.x0, seleccionMarca.x1));
+  const y1 = Math.min(canvasMarca.height - 1, Math.max(seleccionMarca.y0, seleccionMarca.y1));
+  const w = x1 - x0, h = y1 - y0;
+  if (w < 2 || h < 2) return;
+
+  estadoMarca.textContent = "Rellenando...";
+  btnQuitarMarca.disabled = true;
+
+  setTimeout(() => {
+    const trabajo = new ImageData(new Uint8ClampedArray(imagenOriginalMarca.data), canvasMarca.width, canvasMarca.height);
+    inpaintRegion(trabajo, x0, y0, w, h, parseInt(pasadasMarca.value, 10), canvasMarca.height);
+    historialMarca.push(imagenOriginalMarca);
+    imagenOriginalMarca = trabajo;
+    seleccionMarca = null;
+    redibujarMarca();
+    btnDeshacerMarca.disabled = false;
+    estadoMarca.textContent = "Listo. Si quedó algo del logo, marcá de nuevo esa zona y aplicá otra vez.";
+    mostrarDescargaMarca();
+  }, 30);
+});
+
+btnDeshacerMarca.addEventListener("click", () => {
+  if (!historialMarca.length) return;
+  imagenOriginalMarca = historialMarca.pop();
+  redibujarMarca();
+  if (!historialMarca.length) btnDeshacerMarca.disabled = true;
+  mostrarDescargaMarca();
+});
+
+function mostrarDescargaMarca() {
+  resultadoMarca.innerHTML = "";
+  canvasMarca.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "reaper-sin-marca.png";
+    a.textContent = "Descargar imagen";
+    a.className = "btn-accion";
+    a.style.display = "inline-block";
+    a.style.textDecoration = "none";
+    resultadoMarca.appendChild(a);
+  }, "image/png");
+}
+
+/* =========================================================
+   EDITAR COLORES
+   Reusa el decodificador de GIF de la herramienta anterior
+   para mantener el movimiento; ajusta tono/saturación/luz/
+   sombra/contraste píxel a píxel y respeta la transparencia.
+   ========================================================= */
+const dropColores = document.getElementById("dropColores");
+const inputColores = document.getElementById("inputColores");
+const zonaColores = document.getElementById("zonaColores");
+const canvasColores = document.getElementById("canvasColores");
+const ctxColores = canvasColores.getContext("2d");
+const checkMonocromo = document.getElementById("checkMonocromo");
+const colorMonocromo = document.getElementById("colorMonocromo");
+const sliderTono = document.getElementById("sliderTono");
+const sliderSat = document.getElementById("sliderSat");
+const sliderLuz = document.getElementById("sliderLuz");
+const sliderSombra = document.getElementById("sliderSombra");
+const sliderContraste = document.getElementById("sliderContraste");
+const valTono = document.getElementById("valTono");
+const valSat = document.getElementById("valSat");
+const valLuz = document.getElementById("valLuz");
+const valSombra = document.getElementById("valSombra");
+const valContraste = document.getElementById("valContraste");
+const btnResetColores = document.getElementById("btnResetColores");
+const btnDescargarColores = document.getElementById("btnDescargarColores");
+const estadoColores = document.getElementById("estadoColores");
+
+let originalesColores = [];
+let procesados = [];
+let esAnimadoColores = false;
+let idxPreviewColores = 0;
+let timerPreviewColores = null;
+let recalculoPendiente = false;
+
+dropColores.addEventListener("click", () => inputColores.click());
+inputColores.addEventListener("change", (e) => cargarImagenColores(e.target.files[0]));
+["dragover", "dragenter"].forEach((evt) => {
+  dropColores.addEventListener(evt, (e) => { e.preventDefault(); dropColores.classList.add("arrastrando"); });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropColores.addEventListener(evt, (e) => { e.preventDefault(); dropColores.classList.remove("arrastrando"); });
+});
+dropColores.addEventListener("drop", (e) => {
+  if (e.dataTransfer.files[0]) cargarImagenColores(e.dataTransfer.files[0]);
+});
+
+async function cargarImagenColores(file) {
+  if (!file) return;
+  clearTimeout(timerPreviewColores);
+  estadoColores.textContent = "Cargando...";
+
+  if (file.type === "image/gif") {
+    try {
+      const buffer = await file.arrayBuffer();
+      const gif = leerGIF(buffer);
+      const cuadros = componerCuadros(gif);
+      canvasColores.width = gif.width;
+      canvasColores.height = gif.height;
+      originalesColores = cuadros.map((c) => ({ imageData: c.imageData, delay: c.delay }));
+      esAnimadoColores = cuadros.length > 1;
+    } catch (err) {
+      estadoColores.textContent = "No pude leer ese GIF.";
+      return;
+    }
+    terminarCargaColores();
+  } else {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => { img.src = e.target.result; };
+    img.onload = () => {
+      canvasColores.width = img.naturalWidth;
+      canvasColores.height = img.naturalHeight;
+      ctxColores.clearRect(0, 0, canvasColores.width, canvasColores.height);
+      ctxColores.drawImage(img, 0, 0);
+      const data = ctxColores.getImageData(0, 0, canvasColores.width, canvasColores.height);
+      originalesColores = [{ imageData: data, delay: 1e9 }];
+      esAnimadoColores = false;
+      terminarCargaColores();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function terminarCargaColores() {
+  zonaColores.classList.remove("oculto");
+  btnDescargarColores.disabled = false;
+  estadoColores.textContent = "";
+  resetearControlesColores(false);
+  recalcularColores();
+  idxPreviewColores = 0;
+  loopPreviewColores();
+}
+
+/* ---------- conversión RGB <-> HSL ---------- */
+function rgbAHsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  if (max === min) {
+    h = s = 0;
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      default: h = (r - g) / d + 4; break;
+    }
+    h *= 60;
+  }
+  return { h, s: s * 100, l: l * 100 };
+}
+
+function hslARgb(h, s, l) {
+  h = ((h % 360) + 360) % 360;
+  s = Math.max(0, Math.min(100, s)) / 100;
+  l = Math.max(0, Math.min(100, l)) / 100;
+  if (s === 0) {
+    const v = Math.round(l * 255);
+    return { r: v, g: v, b: v };
+  }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  const hk = h / 360;
+  const tc = (t) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  return {
+    r: Math.round(tc(hk + 1 / 3) * 255),
+    g: Math.round(tc(hk) * 255),
+    b: Math.round(tc(hk - 1 / 3) * 255),
+  };
+}
+
+/* ---------- ajuste de píxeles: tono/saturación/luz/sombra/contraste ---------- */
+function transformarPixeles(origData, opts) {
+  const data = new Uint8ClampedArray(origData.data);
+  const { monocromo, colorMono, tono, sat, luz, sombra, contraste } = opts;
+
+  let monoH = 0, monoS = 0;
+  if (monocromo) {
+    const rgbMono = hexARgb(colorMono) || { r: 200, g: 29, b: 37 };
+    const hsl = rgbAHsl(rgbMono.r, rgbMono.g, rgbMono.b);
+    monoH = hsl.h; monoS = hsl.s;
+  }
+
+  const cEscalado = contraste * 2.55;
+  const factorContraste = (259 * (cEscalado + 255)) / (255 * (259 - cEscalado));
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] === 0) continue; // no tocar píxeles totalmente transparentes
+
+    let r = data[i], g = data[i + 1], b = data[i + 2];
+
+    if (monocromo) {
+      const l = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 * 100;
+      const rgb = hslARgb(monoH, monoS, l);
+      r = rgb.r; g = rgb.g; b = rgb.b;
+    } else if (tono !== 0 || sat !== 0) {
+      const hsl = rgbAHsl(r, g, b);
+      const h = (hsl.h + tono + 360) % 360;
+      const s = Math.max(0, Math.min(100, hsl.s + sat));
+      const rgb = hslARgb(h, s, hsl.l);
+      r = rgb.r; g = rgb.g; b = rgb.b;
+    }
+
+    if (luz !== 0) {
+      const delta = luz * 2.55;
+      r += delta; g += delta; b += delta;
+    }
+
+    if (sombra !== 0) {
+      const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+      const peso = Math.max(0, 1 - lum * 1.6);
+      const delta = sombra * 2 * peso;
+      r += delta; g += delta; b += delta;
+    }
+
+    r = factorContraste * (r - 128) + 128;
+    g = factorContraste * (g - 128) + 128;
+    b = factorContraste * (b - 128) + 128;
+
+    data[i] = r; data[i + 1] = g; data[i + 2] = b;
+  }
+
+  return new ImageData(data, origData.width, origData.height);
+}
+
+function leerOpcionesColores() {
+  return {
+    monocromo: checkMonocromo.checked,
+    colorMono: colorMonocromo.value,
+    tono: parseInt(sliderTono.value, 10),
+    sat: parseInt(sliderSat.value, 10),
+    luz: parseInt(sliderLuz.value, 10),
+    sombra: parseInt(sliderSombra.value, 10),
+    contraste: parseInt(sliderContraste.value, 10),
+  };
+}
+
+function recalcularColores() {
+  const opts = leerOpcionesColores();
+  procesados = originalesColores.map((f) => ({
+    imageData: transformarPixeles(f.imageData, opts),
+    delay: f.delay,
+  }));
+}
+
+function pedirRecalculo() {
+  if (recalculoPendiente) return;
+  recalculoPendiente = true;
+  requestAnimationFrame(() => {
+    recalcularColores();
+    if (!esAnimadoColores) {
+      // en imágenes estáticas el loop de preview no vuelve a pintar solo,
+      // así que redibujamos acá mismo apenas se recalculan los colores
+      dibujarCuadroColores(0);
+    }
+    recalculoPendiente = false;
+  });
+}
+
+function dibujarCuadroColores(i) {
+  ctxColores.putImageData(procesados[i].imageData, 0, 0);
+}
+
+function loopPreviewColores() {
+  if (!procesados.length) return;
+  dibujarCuadroColores(idxPreviewColores);
+  const delay = esAnimadoColores ? procesados[idxPreviewColores].delay : 1e9;
+  idxPreviewColores = (idxPreviewColores + 1) % procesados.length;
+  clearTimeout(timerPreviewColores);
+  timerPreviewColores = setTimeout(loopPreviewColores, delay);
+}
+
+[sliderTono, sliderSat, sliderLuz, sliderSombra, sliderContraste].forEach((s) => {
+  s.addEventListener("input", () => {
+    valTono.textContent = sliderTono.value;
+    valSat.textContent = sliderSat.value;
+    valLuz.textContent = sliderLuz.value;
+    valSombra.textContent = sliderSombra.value;
+    valContraste.textContent = sliderContraste.value;
+    pedirRecalculo();
+  });
+});
+
+checkMonocromo.addEventListener("change", () => {
+  sliderTono.disabled = checkMonocromo.checked;
+  sliderSat.disabled = checkMonocromo.checked;
+  pedirRecalculo();
+});
+colorMonocromo.addEventListener("input", pedirRecalculo);
+
+function resetearControlesColores(recalcular) {
+  sliderTono.value = 0; sliderSat.value = 0; sliderLuz.value = 0; sliderSombra.value = 0; sliderContraste.value = 0;
+  valTono.textContent = "0"; valSat.textContent = "0"; valLuz.textContent = "0"; valSombra.textContent = "0"; valContraste.textContent = "0";
+  checkMonocromo.checked = false;
+  sliderTono.disabled = false; sliderSat.disabled = false;
+  if (recalcular) pedirRecalculo();
+}
+
+btnResetColores.addEventListener("click", () => resetearControlesColores(true));
+
+btnDescargarColores.addEventListener("click", async () => {
+  if (esAnimadoColores) {
+    await exportarAnimacionColores();
+  } else {
+    canvasColores.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "reaper-color.png"; a.click();
+    }, "image/png");
+  }
+});
+
+async function exportarAnimacionColores() {
+  estadoColores.textContent = "Grabando animación...";
+  btnDescargarColores.disabled = true;
+  clearTimeout(timerPreviewColores);
+
+  const stream = canvasColores.captureStream(0);
+  const track = stream.getVideoTracks()[0];
+  const candidatos = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm"];
+  const mimeType = candidatos.find((c) => MediaRecorder.isTypeSupported(c));
+  if (!mimeType) {
+    estadoColores.textContent = "Tu navegador no puede grabar video acá. Probá con Chrome de escritorio.";
+    btnDescargarColores.disabled = false;
+    loopPreviewColores();
+    return;
+  }
+
+  const chunks = [];
+  const rec = new MediaRecorder(stream, { mimeType });
+  rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+  const listo = new Promise((res) => { rec.onstop = res; });
+
+  rec.start();
+  for (let i = 0; i < procesados.length; i++) {
+    dibujarCuadroColores(i);
+    track.requestFrame();
+    await esperar(procesados[i].delay);
+  }
+  rec.stop();
+  await listo;
+
+  const blob = new Blob(chunks, { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "reaper-color.webm"; a.click();
+
+  estadoColores.textContent = "Listo. Se exportó como WEBM (la animación no se puede volver a guardar como GIF acá).";
+  btnDescargarColores.disabled = false;
+  loopPreviewColores();
+}
+
+/* =========================================================
+   EJECUTAR PYTHON
+   Usa Pyodide (Python -> WebAssembly) para correr el script
+   en el navegador. Instala dependencias con loadPackage/micropip
+   cuando puede; si no puede, avisa y sigue igual.
+   ========================================================= */
+const dropPy = document.getElementById("dropPy");
+const inputPy = document.getElementById("inputPy");
+const editorPython = document.getElementById("editorPython");
+const dropArchivosPy = document.getElementById("dropArchivosPy");
+const inputArchivosPy = document.getElementById("inputArchivosPy");
+const listaArchivosPy = document.getElementById("listaArchivosPy");
+const btnEjecutarPython = document.getElementById("btnEjecutarPython");
+const btnLimpiarPython = document.getElementById("btnLimpiarPython");
+const estadoPython = document.getElementById("estadoPython");
+const salidaPython = document.getElementById("salidaPython");
+const resultadoPython = document.getElementById("resultadoPython");
+
+let archivosEntradaPython = [];
+let pyodideInstancia = null;
+let pyodideCargando = null;
+
+dropPy.addEventListener("click", () => inputPy.click());
+inputPy.addEventListener("change", (e) => cargarScriptPy(e.target.files[0]));
+["dragover", "dragenter"].forEach((evt) => {
+  dropPy.addEventListener(evt, (e) => { e.preventDefault(); dropPy.classList.add("arrastrando"); });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropPy.addEventListener(evt, (e) => { e.preventDefault(); dropPy.classList.remove("arrastrando"); });
+});
+dropPy.addEventListener("drop", (e) => { if (e.dataTransfer.files[0]) cargarScriptPy(e.dataTransfer.files[0]); });
+
+function cargarScriptPy(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => { editorPython.value = e.target.result; };
+  reader.readAsText(file);
+}
+
+dropArchivosPy.addEventListener("click", () => inputArchivosPy.click());
+inputArchivosPy.addEventListener("change", (e) => agregarArchivosEntradaPy(e.target.files));
+["dragover", "dragenter"].forEach((evt) => {
+  dropArchivosPy.addEventListener(evt, (e) => { e.preventDefault(); dropArchivosPy.classList.add("arrastrando"); });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropArchivosPy.addEventListener(evt, (e) => { e.preventDefault(); dropArchivosPy.classList.remove("arrastrando"); });
+});
+dropArchivosPy.addEventListener("drop", (e) => agregarArchivosEntradaPy(e.dataTransfer.files));
+
+function agregarArchivosEntradaPy(lista) {
+  archivosEntradaPython = archivosEntradaPython.concat(Array.from(lista));
+  listaArchivosPy.textContent = archivosEntradaPython.length
+    ? "Archivos: " + archivosEntradaPython.map((f) => f.name).join(", ")
+    : "";
+}
+
+const MODULOS_ESTANDAR_PY = new Set([
+  "os", "sys", "re", "json", "math", "random", "time", "datetime", "itertools", "functools",
+  "collections", "pathlib", "subprocess", "threading", "typing", "io", "shutil", "glob", "csv",
+  "logging", "argparse", "socket", "struct", "copy", "enum", "dataclasses", "abc", "traceback",
+  "unittest", "base64", "hashlib", "uuid", "tempfile", "zipfile", "gzip", "pickle", "string",
+  "textwrap", "warnings", "array", "bisect", "heapq", "statistics", "decimal", "fractions",
+  "operator", "queue", "asyncio", "__future__",
+]);
+
+const MAPEO_PAQUETES_PY = {
+  PIL: "Pillow",
+  cv2: "opencv-python",
+  bs4: "beautifulsoup4",
+  sklearn: "scikit-learn",
+  yaml: "pyyaml",
+};
+
+function detectarModulosPy(codigo) {
+  const set = new Set();
+  const re = /^\s*(?:import|from)\s+([a-zA-Z_][a-zA-Z0-9_]*)/gm;
+  let m;
+  while ((m = re.exec(codigo))) set.add(m[1]);
+  return Array.from(set);
+}
+
+async function obtenerPyodideInstancia() {
+  if (pyodideInstancia) return pyodideInstancia;
+  if (!pyodideCargando) {
+    estadoPython.textContent = "Descargando Python (Pyodide)... puede tardar la primera vez.";
+    pyodideCargando = loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/" });
+  }
+  pyodideInstancia = await pyodideCargando;
+  return pyodideInstancia;
+}
+
+btnLimpiarPython.addEventListener("click", () => {
+  editorPython.value = "";
+  archivosEntradaPython = [];
+  listaArchivosPy.textContent = "";
+  salidaPython.textContent = "";
+  resultadoPython.innerHTML = "";
+  estadoPython.textContent = "";
+  inputPy.value = "";
+  inputArchivosPy.value = "";
+});
+
+btnEjecutarPython.addEventListener("click", ejecutarPython);
+
+async function ejecutarPython() {
+  const codigo = editorPython.value;
+  if (!codigo.trim()) { estadoPython.textContent = "Pegá o subí un script primero."; return; }
+
+  btnEjecutarPython.disabled = true;
+  salidaPython.textContent = "";
+  resultadoPython.innerHTML = "";
+  estadoPython.textContent = "Preparando Python...";
+
+  try {
+    const pyodide = await obtenerPyodideInstancia();
+
+    for (const f of archivosEntradaPython) {
+      const buffer = new Uint8Array(await f.arrayBuffer());
+      pyodide.FS.writeFile(f.name, buffer);
+    }
+
+    await pyodide.loadPackage("micropip").catch(() => {});
+    let micropip = null;
+    try { micropip = pyodide.pyimport("micropip"); } catch (e) { /* seguimos sin micropip */ }
+
+    const modulos = detectarModulosPy(codigo);
+    for (const mod of modulos) {
+      if (MODULOS_ESTANDAR_PY.has(mod)) continue;
+      const nombrePaquete = MAPEO_PAQUETES_PY[mod] || mod;
+      estadoPython.textContent = `Instalando ${nombrePaquete}...`;
+      let instalado = false;
+      try { await pyodide.loadPackage(nombrePaquete); instalado = true; } catch (e) { /* no es un paquete precompilado */ }
+      if (!instalado && micropip) {
+        try { await micropip.install(nombrePaquete); instalado = true; } catch (e) { /* no está en PyPI como rueda pura-python */ }
+      }
+      if (!instalado) {
+        salidaPython.textContent += `[aviso] no pude instalar "${nombrePaquete}" (puede que no tenga versión para Pyodide) — sigo igual.\n`;
+      }
+    }
+
+    estadoPython.textContent = "Ejecutando...";
+    const listaAntes = new Set(pyodide.FS.readdir("."));
+
+    pyodide.setStdout({ batched: (s) => { salidaPython.textContent += s + "\n"; salidaPython.scrollTop = salidaPython.scrollHeight; } });
+    pyodide.setStderr({ batched: (s) => { salidaPython.textContent += s + "\n"; salidaPython.scrollTop = salidaPython.scrollHeight; } });
+
+    await pyodide.runPythonAsync(codigo);
+
+    const listaDespues = pyodide.FS.readdir(".");
+    const nuevos = listaDespues.filter((n) => !listaAntes.has(n) && n !== "." && n !== "..");
+    mostrarArchivosGeneradosPy(nuevos, pyodide);
+
+    estadoPython.textContent = "Listo.";
+  } catch (err) {
+    salidaPython.textContent += "\n[error] " + (err && err.message ? err.message : String(err));
+    estadoPython.textContent = "Terminó con errores.";
+  } finally {
+    btnEjecutarPython.disabled = false;
+  }
+}
+
+function mostrarArchivosGeneradosPy(nombres, pyodide) {
+  nombres.forEach((nombre) => {
+    let datos;
+    try { datos = pyodide.FS.readFile(nombre); } catch (e) { return; } // puede ser un directorio
+    const blob = new Blob([datos]);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = nombre; a.textContent = "Descargar " + nombre;
+    a.className = "btn-accion";
+    a.style.display = "inline-block";
+    a.style.margin = "4px 6px 0 0";
+    a.style.textDecoration = "none";
+    resultadoPython.appendChild(a);
+  });
+}
+
+/* =========================================================
+   QUITAR FONDO (BLANCO/NEGRO)
+   Chroma-key simple sobre fondos lisos: todo lo que esté
+   cerca del blanco o negro puro pasa a transparente, con un
+   borde suavizado para que no quede un recorte duro.
+   ========================================================= */
+const dropFondo = document.getElementById("dropFondo");
+const inputFondo = document.getElementById("inputFondo");
+const zonaFondo = document.getElementById("zonaFondo");
+const canvasFondo = document.getElementById("canvasFondo");
+const ctxFondo = canvasFondo.getContext("2d");
+const radioBlanco = document.getElementById("radioBlanco");
+const radioNegro = document.getElementById("radioNegro");
+const sliderTolerancia = document.getElementById("sliderTolerancia");
+const valorTolerancia = document.getElementById("valorTolerancia");
+const btnDescargarFondo = document.getElementById("btnDescargarFondo");
+const estadoFondo = document.getElementById("estadoFondo");
+
+let originalFondo = null;
+
+dropFondo.addEventListener("click", () => inputFondo.click());
+inputFondo.addEventListener("change", (e) => cargarImagenFondo(e.target.files[0]));
+["dragover", "dragenter"].forEach((evt) => {
+  dropFondo.addEventListener(evt, (e) => { e.preventDefault(); dropFondo.classList.add("arrastrando"); });
+});
+["dragleave", "drop"].forEach((evt) => {
+  dropFondo.addEventListener(evt, (e) => { e.preventDefault(); dropFondo.classList.remove("arrastrando"); });
+});
+dropFondo.addEventListener("drop", (e) => { if (e.dataTransfer.files[0]) cargarImagenFondo(e.dataTransfer.files[0]); });
+
+function cargarImagenFondo(file) {
+  if (!file) return;
+  const img = new Image();
+  const reader = new FileReader();
+  reader.onload = (e) => { img.src = e.target.result; };
+  img.onload = () => {
+    canvasFondo.width = img.naturalWidth;
+    canvasFondo.height = img.naturalHeight;
+    ctxFondo.clearRect(0, 0, canvasFondo.width, canvasFondo.height);
+    ctxFondo.drawImage(img, 0, 0);
+    originalFondo = ctxFondo.getImageData(0, 0, canvasFondo.width, canvasFondo.height);
+    zonaFondo.classList.remove("oculto");
+    btnDescargarFondo.disabled = false;
+    estadoFondo.textContent = "";
+    aplicarQuitarFondo();
+  };
+  reader.readAsDataURL(file);
+}
+
+function quitarFondoPlano(imageData, esNegro, tolerancia) {
+  const data = new Uint8ClampedArray(imageData.data);
+  const objetivo = esNegro ? 0 : 255;
+  const banda = 30; // ancho del borde suavizado, en unidades de distancia de color
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i], g = data[i + 1], b = data[i + 2];
+    const dist = Math.max(Math.abs(r - objetivo), Math.abs(g - objetivo), Math.abs(b - objetivo));
+    if (dist <= tolerancia) {
+      data[i + 3] = 0;
+    } else if (dist <= tolerancia + banda) {
+      const factor = (dist - tolerancia) / banda;
+      data[i + 3] = Math.round(data[i + 3] * factor);
+    }
+  }
+  return new ImageData(data, imageData.width, imageData.height);
+}
+
+function aplicarQuitarFondo() {
+  if (!originalFondo) return;
+  const esNegro = radioNegro.checked;
+  const resultado = quitarFondoPlano(originalFondo, esNegro, parseInt(sliderTolerancia.value, 10));
+  ctxFondo.putImageData(resultado, 0, 0);
+}
+
+[radioBlanco, radioNegro].forEach((r) => r.addEventListener("change", aplicarQuitarFondo));
+sliderTolerancia.addEventListener("input", () => {
+  valorTolerancia.textContent = sliderTolerancia.value;
+  aplicarQuitarFondo();
+});
+
+btnDescargarFondo.addEventListener("click", () => {
+  canvasFondo.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "reaper-sin-fondo.png"; a.click();
+  }, "image/png");
+});
+
+/* ---------- fila de resultado con miniatura (la usan Degradados y Estilo) ---------- */
+function filaResultadoConMiniatura(contenedor, nombre, url, tamanoOriginal, tamanoNuevo) {
+  const fila = document.createElement("div");
+  fila.className = "resultado-fila";
+  const img = document.createElement("img");
+  img.src = url;
+  img.style.cssText = "width:44px;height:44px;object-fit:cover;border-radius:8px;flex-shrink:0;";
+  fila.appendChild(img);
+  const nombreSpan = document.createElement("span");
+  nombreSpan.className = "resultado-nombre";
+  nombreSpan.textContent = nombre;
+  fila.appendChild(nombreSpan);
+  const tamSpan = document.createElement("span");
+  tamSpan.className = "resultado-tamano";
+  tamSpan.textContent = formatoTamano(tamanoOriginal) + " → " + formatoTamano(tamanoNuevo);
+  fila.appendChild(tamSpan);
+  const a = document.createElement("a");
+  a.href = url; a.download = nombre; a.textContent = "Descargar";
+  fila.appendChild(a);
+  contenedor.appendChild(fila);
+}
+
+/* =========================================================
+   DEGRADADOS EN LOS BORDES
+   ========================================================= */
+const ladoArriba = document.getElementById("ladoArriba");
+const ladoAbajo = document.getElementById("ladoAbajo");
+const ladoIzquierda = document.getElementById("ladoIzquierda");
+const ladoDerecha = document.getElementById("ladoDerecha");
+const ladoTodos = document.getElementById("ladoTodos");
+const modoColorDegradado = document.getElementById("modoColorDegradado");
+const modoVacioDegradado = document.getElementById("modoVacioDegradado");
+const controlesColorDegradado = document.getElementById("controlesColorDegradado");
+const colorDegradado = document.getElementById("colorDegradado");
+const hexDegradado = document.getElementById("hexDegradado");
+const rDegradado = document.getElementById("rDegradado");
+const gDegradado = document.getElementById("gDegradado");
+const bDegradado = document.getElementById("bDegradado");
+const sliderTamanoDegradado = document.getElementById("sliderTamanoDegradado");
+const valorTamanoDegradado = document.getElementById("valorTamanoDegradado");
+const dropDegradado = document.getElementById("dropDegradado");
+const inputDegradado = document.getElementById("inputDegradado");
+const btnReaplicarDegradado = document.getElementById("btnReaplicarDegradado");
+const btnDescargarTodoDegradado = document.getElementById("btnDescargarTodoDegradado");
+const btnLimpiarDegradado = document.getElementById("btnLimpiarDegradado");
+const estadoDegradado = document.getElementById("estadoDegradado");
+const resultadosDegradado = document.getElementById("resultadosDegradado");
+
+let archivosDegradado = [];
+let resultadosArchivosDegradado = [];
+
+ladoTodos.addEventListener("change", () => {
+  const marcar = ladoTodos.checked;
+  [ladoArriba, ladoAbajo, ladoIzquierda, ladoDerecha].forEach((cb) => { cb.checked = marcar; cb.disabled = marcar; });
+});
+
+colorDegradado.addEventListener("input", () => {
+  hexDegradado.value = colorDegradado.value;
+  const rgb = hexARgb(colorDegradado.value);
+  if (rgb) { rDegradado.value = rgb.r; gDegradado.value = rgb.g; bDegradado.value = rgb.b; }
+});
+hexDegradado.addEventListener("input", () => {
+  const rgb = hexARgb(hexDegradado.value);
+  if (!rgb) return;
+  colorDegradado.value = rgbAHex(rgb.r, rgb.g, rgb.b);
+  rDegradado.value = rgb.r; gDegradado.value = rgb.g; bDegradado.value = rgb.b;
+});
+hexDegradado.addEventListener("blur", () => { hexDegradado.value = colorDegradado.value; });
+[rDegradado, gDegradado, bDegradado].forEach((input) => {
+  input.addEventListener("input", () => {
+    const r = limitar255(rDegradado.value), g = limitar255(gDegradado.value), b = limitar255(bDegradado.value);
+    const hex = rgbAHex(r, g, b);
+    colorDegradado.value = hex; hexDegradado.value = hex;
+  });
+});
+
+[modoColorDegradado, modoVacioDegradado].forEach((r) => r.addEventListener("change", () => {
+  controlesColorDegradado.style.opacity = modoVacioDegradado.checked ? "0.4" : "1";
+  controlesColorDegradado.style.pointerEvents = modoVacioDegradado.checked ? "none" : "auto";
+}));
+
+sliderTamanoDegradado.addEventListener("input", () => {
+  valorTamanoDegradado.textContent = sliderTamanoDegradado.value + "%";
+});
+
+dropDegradado.addEventListener("click", () => inputDegradado.click());
+inputDegradado.addEventListener("change", (e) => cargarArchivosDegradado(e.target.files));
+["dragover", "dragenter"].forEach((evt) => dropDegradado.addEventListener(evt, (e) => { e.preventDefault(); dropDegradado.classList.add("arrastrando"); }));
+["dragleave", "drop"].forEach((evt) => dropDegradado.addEventListener(evt, (e) => { e.preventDefault(); dropDegradado.classList.remove("arrastrando"); }));
+dropDegradado.addEventListener("drop", (e) => cargarArchivosDegradado(e.dataTransfer.files));
+
+function cargarArchivosDegradado(lista) {
+  archivosDegradado = archivosDegradado.concat(Array.from(lista).filter((f) => /image\/(png|jpe?g|webp)/.test(f.type)));
+  if (archivosDegradado.length) {
+    btnReaplicarDegradado.disabled = false;
+    btnLimpiarDegradado.disabled = false;
+    procesarTodosDegradado();
+  }
+}
+
+function leerOpcionesDegradado() {
+  return {
+    lados: {
+      arriba: ladoArriba.checked,
+      abajo: ladoAbajo.checked,
+      izquierda: ladoIzquierda.checked,
+      derecha: ladoDerecha.checked,
+    },
+    tamanoFrac: parseInt(sliderTamanoDegradado.value, 10) / 100,
+    modo: modoVacioDegradado.checked ? "vacio" : "color",
+    color: hexARgb(hexDegradado.value) || { r: 200, g: 29, b: 37 },
+  };
+}
+
+function calcularFactorBordeDegradado(x, y, w, h, lados, tamanoFrac) {
+  let factor = 0;
+  if (lados.arriba) factor = Math.max(factor, Math.max(0, 1 - y / (h * tamanoFrac)));
+  if (lados.abajo) factor = Math.max(factor, Math.max(0, 1 - (h - 1 - y) / (h * tamanoFrac)));
+  if (lados.izquierda) factor = Math.max(factor, Math.max(0, 1 - x / (w * tamanoFrac)));
+  if (lados.derecha) factor = Math.max(factor, Math.max(0, 1 - (w - 1 - x) / (w * tamanoFrac)));
+  return Math.min(1, factor);
+}
+
+function aplicarDegradadoImagen(imageData, opts) {
+  const { lados, tamanoFrac, modo, color } = opts;
+  const w = imageData.width, h = imageData.height;
+  const data = new Uint8ClampedArray(imageData.data);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const factor = calcularFactorBordeDegradado(x, y, w, h, lados, tamanoFrac);
+      if (factor <= 0) continue;
+      const idx = (y * w + x) * 4;
+      if (modo === "vacio") {
+        data[idx + 3] = Math.round(data[idx + 3] * (1 - factor));
+      } else {
+        data[idx] = data[idx] * (1 - factor) + color.r * factor;
+        data[idx + 1] = data[idx + 1] * (1 - factor) + color.g * factor;
+        data[idx + 2] = data[idx + 2] * (1 - factor) + color.b * factor;
+      }
+    }
+  }
+  return new ImageData(data, w, h);
+}
+
+btnReaplicarDegradado.addEventListener("click", procesarTodosDegradado);
+
+function procesarTodosDegradado() {
+  if (!archivosDegradado.length) return;
+  estadoDegradado.textContent = "Procesando...";
+  resultadosDegradado.innerHTML = "";
+  resultadosArchivosDegradado.forEach((f) => URL.revokeObjectURL(f.url));
+  resultadosArchivosDegradado = [];
+  const opts = leerOpcionesDegradado();
+
+  let pendientes = archivosDegradado.length;
+  archivosDegradado.forEach((file) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => { img.src = e.target.result; };
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const resultado = aplicarDegradadoImagen(data, opts);
+      ctx.putImageData(resultado, 0, 0);
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const nombreSalida = "degradado-" + file.name.replace(/\.(png|jpe?g|webp)$/i, "") + ".png";
+        resultadosArchivosDegradado.push({ name: nombreSalida, url });
+        filaResultadoConMiniatura(resultadosDegradado, nombreSalida, url, file.size, blob.size);
+        btnDescargarTodoDegradado.disabled = false;
+        pendientes--;
+        if (pendientes === 0) estadoDegradado.textContent = "Listo.";
+      }, "image/png");
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+btnDescargarTodoDegradado.addEventListener("click", () => {
+  resultadosArchivosDegradado.forEach((f, i) => {
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = f.url; a.download = f.name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }, i * 200);
+  });
+});
+
+btnLimpiarDegradado.addEventListener("click", () => {
+  archivosDegradado = [];
+  resultadosArchivosDegradado.forEach((f) => URL.revokeObjectURL(f.url));
+  resultadosArchivosDegradado = [];
+  resultadosDegradado.innerHTML = "";
+  estadoDegradado.textContent = "";
+  btnReaplicarDegradado.disabled = true;
+  btnDescargarTodoDegradado.disabled = true;
+  btnLimpiarDegradado.disabled = true;
+  inputDegradado.value = "";
+});
+
+/* =========================================================
+   REEMPLAZAR COLOR
+   ========================================================= */
+const dropReemplazar = document.getElementById("dropReemplazar");
+const inputReemplazar = document.getElementById("inputReemplazar");
+const zonaReemplazar = document.getElementById("zonaReemplazar");
+const canvasReemplazar = document.getElementById("canvasReemplazar");
+const ctxReemplazar = canvasReemplazar.getContext("2d");
+const colorObjetivoReemplazar = document.getElementById("colorObjetivoReemplazar");
+const hexObjetivoReemplazar = document.getElementById("hexObjetivoReemplazar");
+const sliderToleranciaReemplazar = document.getElementById("sliderToleranciaReemplazar");
+const valorToleranciaReemplazar = document.getElementById("valorToleranciaReemplazar");
+const checkTransparenteReemplazar = document.getElementById("checkTransparenteReemplazar");
+const controlesNuevoColorReemplazar = document.getElementById("controlesNuevoColorReemplazar");
+const colorNuevoReemplazar = document.getElementById("colorNuevoReemplazar");
+const hexNuevoReemplazar = document.getElementById("hexNuevoReemplazar");
+const btnDescargarReemplazar = document.getElementById("btnDescargarReemplazar");
+const estadoReemplazar = document.getElementById("estadoReemplazar");
+
+let originalReemplazar = null;
+
+dropReemplazar.addEventListener("click", () => inputReemplazar.click());
+inputReemplazar.addEventListener("change", (e) => cargarImagenReemplazar(e.target.files[0]));
+["dragover", "dragenter"].forEach((evt) => dropReemplazar.addEventListener(evt, (e) => { e.preventDefault(); dropReemplazar.classList.add("arrastrando"); }));
+["dragleave", "drop"].forEach((evt) => dropReemplazar.addEventListener(evt, (e) => { e.preventDefault(); dropReemplazar.classList.remove("arrastrando"); }));
+dropReemplazar.addEventListener("drop", (e) => { if (e.dataTransfer.files[0]) cargarImagenReemplazar(e.dataTransfer.files[0]); });
+
+function cargarImagenReemplazar(file) {
+  if (!file) return;
+  const img = new Image();
+  const reader = new FileReader();
+  reader.onload = (e) => { img.src = e.target.result; };
+  img.onload = () => {
+    canvasReemplazar.width = img.naturalWidth;
+    canvasReemplazar.height = img.naturalHeight;
+    ctxReemplazar.clearRect(0, 0, canvasReemplazar.width, canvasReemplazar.height);
+    ctxReemplazar.drawImage(img, 0, 0);
+    originalReemplazar = ctxReemplazar.getImageData(0, 0, canvasReemplazar.width, canvasReemplazar.height);
+    zonaReemplazar.classList.remove("oculto");
+    btnDescargarReemplazar.disabled = false;
+    estadoReemplazar.textContent = "";
+    aplicarReemplazarColorPreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+canvasReemplazar.addEventListener("click", (e) => {
+  if (!originalReemplazar) return;
+  const rect = canvasReemplazar.getBoundingClientRect();
+  const escalaX = canvasReemplazar.width / rect.width;
+  const escalaY = canvasReemplazar.height / rect.height;
+  const x = Math.min(canvasReemplazar.width - 1, Math.max(0, Math.round((e.clientX - rect.left) * escalaX)));
+  const y = Math.min(canvasReemplazar.height - 1, Math.max(0, Math.round((e.clientY - rect.top) * escalaY)));
+  const idx = (y * canvasReemplazar.width + x) * 4;
+  const r = originalReemplazar.data[idx], g = originalReemplazar.data[idx + 1], b = originalReemplazar.data[idx + 2];
+  const hex = rgbAHex(r, g, b);
+  colorObjetivoReemplazar.value = hex;
+  hexObjetivoReemplazar.value = hex;
+  aplicarReemplazarColorPreview();
+});
+
+colorObjetivoReemplazar.addEventListener("input", () => { hexObjetivoReemplazar.value = colorObjetivoReemplazar.value; aplicarReemplazarColorPreview(); });
+hexObjetivoReemplazar.addEventListener("input", () => {
+  const rgb = hexARgb(hexObjetivoReemplazar.value);
+  if (!rgb) return;
+  colorObjetivoReemplazar.value = rgbAHex(rgb.r, rgb.g, rgb.b);
+  aplicarReemplazarColorPreview();
+});
+
+colorNuevoReemplazar.addEventListener("input", () => { hexNuevoReemplazar.value = colorNuevoReemplazar.value; aplicarReemplazarColorPreview(); });
+hexNuevoReemplazar.addEventListener("input", () => {
+  const rgb = hexARgb(hexNuevoReemplazar.value);
+  if (!rgb) return;
+  colorNuevoReemplazar.value = rgbAHex(rgb.r, rgb.g, rgb.b);
+  aplicarReemplazarColorPreview();
+});
+
+sliderToleranciaReemplazar.addEventListener("input", () => {
+  valorToleranciaReemplazar.textContent = sliderToleranciaReemplazar.value;
+  aplicarReemplazarColorPreview();
+});
+
+checkTransparenteReemplazar.addEventListener("change", () => {
+  controlesNuevoColorReemplazar.style.opacity = checkTransparenteReemplazar.checked ? "0.4" : "1";
+  controlesNuevoColorReemplazar.style.pointerEvents = checkTransparenteReemplazar.checked ? "none" : "auto";
+  aplicarReemplazarColorPreview();
+});
+
+function reemplazarColorPixeles(imageData, objetivo, tolerancia, nuevo, transparente) {
+  const data = new Uint8ClampedArray(imageData.data);
+  const banda = 30;
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i], g = data[i + 1], b = data[i + 2];
+    const dist = Math.sqrt((r - objetivo.r) ** 2 + (g - objetivo.g) ** 2 + (b - objetivo.b) ** 2);
+    if (dist <= tolerancia) {
+      if (transparente) { data[i + 3] = 0; }
+      else { data[i] = nuevo.r; data[i + 1] = nuevo.g; data[i + 2] = nuevo.b; }
+    } else if (dist <= tolerancia + banda) {
+      const factor = 1 - (dist - tolerancia) / banda;
+      if (transparente) { data[i + 3] = Math.round(data[i + 3] * (1 - factor)); }
+      else {
+        data[i] = r * (1 - factor) + nuevo.r * factor;
+        data[i + 1] = g * (1 - factor) + nuevo.g * factor;
+        data[i + 2] = b * (1 - factor) + nuevo.b * factor;
+      }
+    }
+  }
+  return new ImageData(data, imageData.width, imageData.height);
+}
+
+function aplicarReemplazarColorPreview() {
+  if (!originalReemplazar) return;
+  const objetivo = hexARgb(hexObjetivoReemplazar.value) || { r: 255, g: 255, b: 255 };
+  const nuevo = hexARgb(hexNuevoReemplazar.value) || { r: 200, g: 29, b: 37 };
+  const tolerancia = parseInt(sliderToleranciaReemplazar.value, 10);
+  const resultado = reemplazarColorPixeles(originalReemplazar, objetivo, tolerancia, nuevo, checkTransparenteReemplazar.checked);
+  ctxReemplazar.putImageData(resultado, 0, 0);
+}
+
+btnDescargarReemplazar.addEventListener("click", () => {
+  canvasReemplazar.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "reaper-color-reemplazado.png"; a.click();
+  }, "image/png");
+});
+
+/* =========================================================
+   ESTILO ARTÍSTICO (filtros: boceto, pergamino, grabado)
+   ========================================================= */
+const selectEstilo = document.getElementById("selectEstilo");
+const sliderIntensidadEstilo = document.getElementById("sliderIntensidadEstilo");
+const valorIntensidadEstilo = document.getElementById("valorIntensidadEstilo");
+const dropEstilo = document.getElementById("dropEstilo");
+const inputEstilo = document.getElementById("inputEstilo");
+const btnReaplicarEstilo = document.getElementById("btnReaplicarEstilo");
+const btnDescargarTodoEstilo = document.getElementById("btnDescargarTodoEstilo");
+const btnLimpiarEstilo = document.getElementById("btnLimpiarEstilo");
+const estadoEstilo = document.getElementById("estadoEstilo");
+const resultadosEstilo = document.getElementById("resultadosEstilo");
+
+let archivosEstilo = [];
+let resultadosArchivosEstilo = [];
+
+sliderIntensidadEstilo.addEventListener("input", () => { valorIntensidadEstilo.textContent = sliderIntensidadEstilo.value; });
+
+dropEstilo.addEventListener("click", () => inputEstilo.click());
+inputEstilo.addEventListener("change", (e) => cargarArchivosEstilo(e.target.files));
+["dragover", "dragenter"].forEach((evt) => dropEstilo.addEventListener(evt, (e) => { e.preventDefault(); dropEstilo.classList.add("arrastrando"); }));
+["dragleave", "drop"].forEach((evt) => dropEstilo.addEventListener(evt, (e) => { e.preventDefault(); dropEstilo.classList.remove("arrastrando"); }));
+dropEstilo.addEventListener("drop", (e) => cargarArchivosEstilo(e.dataTransfer.files));
+
+function cargarArchivosEstilo(lista) {
+  archivosEstilo = archivosEstilo.concat(Array.from(lista).filter((f) => /image\/(png|jpe?g|webp)/.test(f.type)));
+  if (archivosEstilo.length) {
+    btnReaplicarEstilo.disabled = false;
+    btnLimpiarEstilo.disabled = false;
+    procesarTodosEstilo();
+  }
+}
+
+function muestraGrisEstilo(gris, w, h, x, y) {
+  x = Math.max(0, Math.min(w - 1, x));
+  y = Math.max(0, Math.min(h - 1, y));
+  return gris[y * w + x];
+}
+
+function aplicarBocetoEstilo(imageData, intensidad) {
+  const w = imageData.width, h = imageData.height;
+  const src = imageData.data;
+  const gris = new Float32Array(w * h);
+  for (let i = 0, p = 0; i < src.length; i += 4, p++) {
+    gris[p] = 0.2126 * src[i] + 0.7152 * src[i + 1] + 0.0722 * src[i + 2];
+  }
+  const out = new Uint8ClampedArray(src.length);
+  const factorInt = intensidad / 3;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const gx = muestraGrisEstilo(gris, w, h, x + 1, y - 1) + 2 * muestraGrisEstilo(gris, w, h, x + 1, y) + muestraGrisEstilo(gris, w, h, x + 1, y + 1)
+               - muestraGrisEstilo(gris, w, h, x - 1, y - 1) - 2 * muestraGrisEstilo(gris, w, h, x - 1, y) - muestraGrisEstilo(gris, w, h, x - 1, y + 1);
+      const gy = muestraGrisEstilo(gris, w, h, x - 1, y + 1) + 2 * muestraGrisEstilo(gris, w, h, x, y + 1) + muestraGrisEstilo(gris, w, h, x + 1, y + 1)
+               - muestraGrisEstilo(gris, w, h, x - 1, y - 1) - 2 * muestraGrisEstilo(gris, w, h, x, y - 1) - muestraGrisEstilo(gris, w, h, x + 1, y - 1);
+      const mag = Math.sqrt(gx * gx + gy * gy);
+      const borde = Math.min(255, mag * factorInt);
+      const valor = 255 - borde;
+      const idx = (y * w + x) * 4;
+      out[idx] = out[idx + 1] = out[idx + 2] = valor;
+      out[idx + 3] = src[idx + 3];
+    }
+  }
+  return new ImageData(out, w, h);
+}
+
+function aplicarPergaminoEstilo(imageData, intensidad) {
+  const w = imageData.width, h = imageData.height;
+  const data = new Uint8ClampedArray(imageData.data);
+  const cx = w / 2, cy = h / 2;
+  const maxDist = Math.sqrt(cx * cx + cy * cy) || 1;
+  const factorInt = intensidad / 10;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const idx = (y * w + x) * 4;
+      const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+      let sr = 0.393 * r + 0.769 * g + 0.189 * b;
+      let sg = 0.349 * r + 0.686 * g + 0.168 * b;
+      let sb = 0.272 * r + 0.534 * g + 0.131 * b;
+      const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2) / maxDist;
+      const vig = 1 - Math.min(1, dist * dist) * 0.6 * factorInt;
+      const grano = (Math.random() - 0.5) * 12 * factorInt;
+      data[idx] = sr * vig + grano;
+      data[idx + 1] = sg * vig + grano;
+      data[idx + 2] = sb * vig + grano;
+    }
+  }
+  return new ImageData(data, w, h);
+}
+
+function aplicarGrabadoEstilo(imageData, intensidad) {
+  const w = imageData.width, h = imageData.height;
+  const src = imageData.data;
+  const out = new Uint8ClampedArray(src.length);
+  const pitch = Math.max(3, Math.round(11 - intensidad));
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const idx = (y * w + x) * 4;
+      const lum = (0.2126 * src[idx] + 0.7152 * src[idx + 1] + 0.0722 * src[idx + 2]) / 255;
+      let valor = 255;
+      const diag1 = (x + y) % pitch;
+      const diag2 = ((x - y) % pitch + pitch) % pitch;
+      if (lum < 0.78 && diag1 < 2) valor = 0;
+      if (lum < 0.45 && diag2 < 2) valor = 0;
+      if (lum < 0.18) valor = 0;
+      out[idx] = out[idx + 1] = out[idx + 2] = valor;
+      out[idx + 3] = src[idx + 3];
+    }
+  }
+  return new ImageData(out, w, h);
+}
+
+function aplicarEstiloImagen(imageData, estilo, intensidad) {
+  if (estilo === "boceto") return aplicarBocetoEstilo(imageData, intensidad);
+  if (estilo === "pergamino") return aplicarPergaminoEstilo(imageData, intensidad);
+  return aplicarGrabadoEstilo(imageData, intensidad);
+}
+
+btnReaplicarEstilo.addEventListener("click", procesarTodosEstilo);
+
+function procesarTodosEstilo() {
+  if (!archivosEstilo.length) return;
+  estadoEstilo.textContent = "Procesando...";
+  resultadosEstilo.innerHTML = "";
+  resultadosArchivosEstilo.forEach((f) => URL.revokeObjectURL(f.url));
+  resultadosArchivosEstilo = [];
+  const estilo = selectEstilo.value;
+  const intensidad = parseInt(sliderIntensidadEstilo.value, 10);
+
+  let pendientes = archivosEstilo.length;
+  archivosEstilo.forEach((file) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => { img.src = e.target.result; };
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const resultado = aplicarEstiloImagen(data, estilo, intensidad);
+      ctx.putImageData(resultado, 0, 0);
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const nombreSalida = estilo + "-" + file.name.replace(/\.(png|jpe?g|webp)$/i, "") + ".png";
+        resultadosArchivosEstilo.push({ name: nombreSalida, url });
+        filaResultadoConMiniatura(resultadosEstilo, nombreSalida, url, file.size, blob.size);
+        btnDescargarTodoEstilo.disabled = false;
+        pendientes--;
+        if (pendientes === 0) estadoEstilo.textContent = "Listo.";
+      }, "image/png");
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+btnDescargarTodoEstilo.addEventListener("click", () => {
+  resultadosArchivosEstilo.forEach((f, i) => {
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = f.url; a.download = f.name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }, i * 200);
+  });
+});
+
+btnLimpiarEstilo.addEventListener("click", () => {
+  archivosEstilo = [];
+  resultadosArchivosEstilo.forEach((f) => URL.revokeObjectURL(f.url));
+  resultadosArchivosEstilo = [];
+  resultadosEstilo.innerHTML = "";
+  estadoEstilo.textContent = "";
+  btnReaplicarEstilo.disabled = true;
+  btnDescargarTodoEstilo.disabled = true;
+  btnLimpiarEstilo.disabled = true;
+  inputEstilo.value = "";
+});
+
+/* =========================================================
+   GALERÍA DE ENLACES
+   Lee reaper-links.json (subido junto a este HTML) y arma
+   los botones cuadrados solo. Cambiá RUTA_GALERIA si querés
+   otro nombre de archivo.
+   ========================================================= */
+const RUTA_GALERIA = "reaper-links.json";
+const gridGaleria = document.getElementById("grid-galeria");
+const estadoGaleria = document.getElementById("estadoGaleria");
+const btnRecargarGaleria = document.getElementById("btnRecargarGaleria");
+
+btnRecargarGaleria.addEventListener("click", cargarGaleria);
+
+async function cargarGaleria() {
+  estadoGaleria.textContent = "Cargando...";
+  gridGaleria.innerHTML = "";
+  try {
+    const resp = await fetch(RUTA_GALERIA + "?_=" + Date.now());
+    if (!resp.ok) throw new Error(`no encontré "${RUTA_GALERIA}" (${resp.status})`);
+    const lista = await resp.json();
+    if (!Array.isArray(lista) || !lista.length) {
+      estadoGaleria.textContent = `"${RUTA_GALERIA}" está vacío o no es una lista.`;
+      return;
+    }
+    lista.forEach((item) => {
+      if (!item || !item.web) return;
+      const a = document.createElement("a");
+      a.href = item.web;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "item-galeria";
+
+      const icono = document.createElement("span");
+      icono.className = "icono-galeria";
+      if (item.vector) {
+        const img = document.createElement("img");
+        img.src = item.vector;
+        img.alt = item.nombre || "";
+        img.onerror = () => { img.style.opacity = "0.25"; };
+        icono.appendChild(img);
+      }
+
+      const etiqueta = document.createElement("span");
+      etiqueta.className = "etiqueta-galeria";
+      etiqueta.textContent = item.nombre || "";
+
+      a.appendChild(icono);
+      a.appendChild(etiqueta);
+      gridGaleria.appendChild(a);
+    });
+    estadoGaleria.textContent = `${lista.length} enlace(s) cargados.`;
+  } catch (err) {
+    estadoGaleria.textContent = `No pude leer "${RUTA_GALERIA}" — ¿existe el archivo al lado del HTML? ¿estás viendo esto desde GitHub Pages y no como archivo local? Detalle: ${err.message}`;
+  }
+}
+
+cargarGaleria();
+</script>
+
+</body>
+</html>
